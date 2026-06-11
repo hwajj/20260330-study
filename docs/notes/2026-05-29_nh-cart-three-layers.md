@@ -1,49 +1,57 @@
-# 요양원 주문 담기 — 상태 3층·페이지 이동·draft 시점
+# 장바구니·주문서 — 상태 3층·시행착오·동기화 개념
 
-> 작성일: 2026-05-29  
-> 맥락: 물품 카탈로그에서 수량 input을 바꿨는데 새로고침해도 그대로인 이유, 카탈로그→주문서로 값을 어떻게 넘기는지, 서버·로컬·페이지 state가 헷갈릴 때
+> 작성일: 2026-05-29 (블로그용 정리: 2026-06-11)  
+> 맥락: SPA에서 카탈로그·주문서·재고 화면을 오가며 담기/수량을 편집할 때, **서버·전역·페이지 state**가 헷갈리는 문제를 정리한 글. B2B 주문 담기를 예로 들지만, 쇼핑몰 장바구니·초안 편집에도 그대로 대입할 수 있다.
 
 ## 이 글의 질문
 
-- 주문 담기에서 **서버 / 앱 전역 / 페이지 로컬**은 각각 무엇을 맡나?
+- 담기·수량 편집에서 **서버 / 앱 전역 / 페이지 로컬**은 각각 무엇을 맡나?
 - 카탈로그에서 주문서로 갈 때 **props나 URL로 안 넘겨도** 되는 이유는?
-- **카탈로그**에서 담기와 **재고**에서 담기는 서버(draft)와 언제 맞추나?
+- **탐색형 담기**(카탈로그)와 **일괄 확정 담기**(재고)는 서버 draft와 **언제** 맞추나?
+- 수량 `−`/`+`를 **클릭마다 서버에 맞추다** 숫자가 튀고 버튼이 잠겼다 — **왜 로컬 SSOT로 갔나?**
+- SSOT, 낙관적 업데이트, debounce, race, flush는 **무엇을 뜻하고 언제 쓰나?**
 
 ## 핵심 (먼저 읽기)
 
-| 구분 | 무엇을 저장하나 | 새로고침 후 | 대표 위치(이 레포) |
-|------|-----------------|-------------|-------------------|
-| **페이지 로컬** | 검색어·페이지 번호·모달 열림 | **대부분 사라짐** | `useState` (카탈로그 필터 등) |
-| **앱 전역 + 디스크** | 담긴 품목·수량·창고별 배송 메모 | **남음** (localStorage) | `useCartStore` + 키 `nh-cart` |
-| **서버** | 상품 목록·미제출 draft·제출된 주문 | **서버에 남음** (단, UI는 아래 규칙) | React Query, `nh-draft` API |
+| 구분 | 무엇을 저장하나 | 새로고침 후 | 대표 도구 |
+|------|-----------------|-------------|-----------|
+| **페이지 로컬** | 검색어·페이지 번호·모달 열림 | **대부분 사라짐** | `useState` |
+| **앱 전역 + 디스크** | 담긴 품목·수량·메모 | **남음** (localStorage) | Zustand + `persist` |
+| **서버** | 상품 목록·미제출 draft·제출된 주문 | **서버에 남음** (UI 규칙은 아래) | React Query 등 |
 
-| 화면 | 담기 직후 서버 draft |
-|------|---------------------|
-| **물품 카탈로그** | **안 맞춤** — Zustand(+localStorage)만 |
-| **재고 현황** | **바로 맞춤** — `postDraftLine` / `patchDraftLine` 후 스토어 갱신 |
-| **주문서 제출 직전** | **한 번에 맞춤** — `syncDraftToServer` 후 주문 API |
+| 화면·동작 | 담기·편집 직후 서버 draft |
+|-----------|---------------------------|
+| **카탈로그 — 수량 조절** | **안 맞춤** — 전역 스토어(+localStorage)만 |
+| **주문서 `−`/`+`** | **안 맞춤** — 스토어만 (제출 직전 flush) |
+| **재고 — 일괄 담기** | **바로 맞춤** — draft API 후 스토어 갱신 |
+| **주문 제출 직전** | **한 번에 맞춤** — 로컬 → 서버 sync 후 주문 API |
 
-## 전제 (30초)
+**한 줄 결론:** 편집 중에는 **클라이언트(전역 스토어 + persist)가 SSOT**, 서버 draft는 **경계(담기·제출·비우기)** 에서만 맞춘다.
 
-- **브라우저**: 사용자가 보는 화면. JavaScript로 input·버튼을 다룬다.
-- **SPA(단일 페이지 앱)**: 페이지를 바꿔도 앱 전체가 완전히 새 HTML로 갈아끼우지 않고, **같은 탭 안의 JavaScript**가 계속 살아 있다.
-- **서버 API**: 상품 목록·“아직 제출 안 한 주문 줄(draft)”·실제 주문 제출을 저장한다.
-- **localStorage**: 브라우저가 디스크에 두는 작은 저장소. **새로고침(F5)** 해도 같은 출처(도메인)에서는 값이 남는다.
+## 목차
 
-## 한눈에
+1. [주문 담기 상태 3층](#1-주문-담기-상태-3층)
+2. [페이지 이동 시 값을 안 넘겨도 되는 이유](#2-페이지-이동-시-값을-안-넘겨도-되는-이유)
+3. [카탈로그 vs 재고 — draft 맞추는 시점](#3-카탈로그-vs-재고--draft-맞추는-시점)
+4. [주문서 수량 UX — 4단계 시행착오](#4-주문서-수량-ux--4단계-시행착오)
+5. [관련 개념 (SSOT·Query·낙관적·debounce)](#5-관련-개념-ssotquery낙관적debounce)
 
-### 그림 1 — 상태가 쌓이는 3층
+---
+
+## 1. 주문 담기 상태 3층
+
+### 그림 — 상태가 쌓이는 3층
 
 ```
 [서버]
-  GET catalog 목록          ← 카탈로그 표만 (읽기)
-  GET/PATCH draft           ← 미제출 주문 줄 (계정·서버 DB)
-  POST 주문 제출            ← 제출 후 draft 비움
+  GET 상품 목록           ← 목록 표만 (읽기)
+  GET/PATCH draft         ← 미제출 주문 줄 (DB)
+  POST 주문 제출          ← 제출 후 draft 비움
 
         ↑ hydrate(로컬 비었을 때만)     ↑ 제출 직전 sync
         │                               │
-[앱 전역 Zustand + localStorage "nh-cart"]
-  lines[], shippingRequestByWarehouseId
+[앱 전역 Zustand + localStorage]
+  lines[], 메모 필드 …
   ← 카탈로그 수량 input, 주문서 편집이 여기를 읽고 씀
 
         ↑ useState (페이지만)
@@ -51,253 +59,266 @@
   검색어, page, 모달 open …
 ```
 
-### 그림 2 — 카탈로그 → 주문서 (값을 “안 넘김”)
-
-```
-CatalogPage                    CartOrderPage
-   │                                │
-   │  Link to="/…/cart"             │
-   │  (props / query 없음)          │
-   └──────────┬─────────────────────┘
-              │
-        useCartStore  ←── 같은 서랍
-        (persist nh-cart)
-```
-
-## 용어 (이 글에서만)
-
-| 용어 | 한 줄 뜻 |
-|------|----------|
-| **Zustand** | React 밖/안에서 쓰는 가벼운 **전역 상태** 라이브러리 |
-| **persist** | Zustand 상태를 **localStorage**에 자동 저장·복원하는 미들웨어 |
-| **draft** | 아직 “주문 제출”하지 않은 **미제출 주문 줄** (서버 API `nh-draft`) |
-| **controlled input** | `value={state}`로 React가 input 글자를 **state와 묶어** 두는 패턴 |
-| **React Query** | 서버에서 가져온 데이터를 캐시·재요청하는 **서버 상태** 도구 |
-| **hydration** | 앱이 켜질 때 서버 draft를 스토어에 **한 번** 채우는 동작 (`useNhDraftHydration`) |
-
----
-
-## 목차
-
-1. [주문 담기 상태 3층](#1-주문-담기-상태-3층)
-2. [페이지 이동 시 값을 안 넘겨도 되는 이유](#2-페이지-이동-시-값을-안-넘겨도-되는-이유)
-3. [카탈로그 vs 재고 — draft 맞추는 시점](#3-카탈로그-vs-재고--draft-맞추는-시점)
-
----
-
-## 1. 주문 담기 상태 3층
-
-지금 설명하는 것은 **“어디에 무엇을 두었는가”** 한 장 지도다.
-
-### 한 줄 요약
-
-**화면에 보이는 모든 input이 “그 페이지만의 state”는 아니다** — 주문 수량은 **전역 장바구니(Zustand) + localStorage**에 붙어 있다.
-
 ### 함정 한 가지
 
 **착각:** “카탈로그 화면의 input을 바꿨으니 페이지 state다 → 새로고침하면 사라져야 한다.”  
-**실제:** 그 input은 `useState`가 아니라 **`cart.lines`에서 읽은 수량**을 `value={qty}`로 보여 준다. 수량 변경은 `commitCartQty` → `addLine` / `updateQuantity`로 **스토어**를 고친다. `persist` 때문에 **F5 후에도** DevTools → Application → Local Storage → `nh-cart`에서 복원된다.
+**실제:** 그 input은 `useState`가 아니라 **전역 `cart.lines`에서 읽은 수량**을 `value={qty}`로 보여 준다(controlled input). 수량 변경은 `addLine` / `updateQuantity`로 **스토어**를 고친다. `persist` 때문에 **F5 후에도** localStorage에서 복원된다.
 
 반대로 **검색어·카테고리·페이지**는 `useState`만 쓰므로 새로고침하면 **초기화되는 것이 정상**이다.
 
 ### 왜 이렇게인가
 
-주문서(미제출)는 카탈로그·재고·주문서 화면을 **오가며** 이어서 편집한다. 페이지마다 따로 state를 두면 “카탈로그에서 3개 담았는데 주문서는 0개”처럼 **어긋나기 쉽다**. 그래서 담긴 라인의 **단일 출처(SSOT)** 를 `useCartStore`로 두고, 브라우저를 닫았다 열어도 이어 쓰게 **localStorage**에 백업한다.
+미제출 주문서는 카탈로그·재고·주문서 화면을 **오가며** 이어서 편집한다. 페이지마다 따로 state를 두면 “카탈로그에서 3개 담았는데 주문서는 0개”처럼 **어긋나기 쉽다**. 담긴 라인의 **단일 출처(SSOT)** 를 전역 스토어로 두고, 브라우저를 닫았다 열어도 이어 쓰게 **localStorage**에 백업한다.
 
-서버 draft는 **다른 기기·탭**이나 **로컬이 비었을 때** 복구용 + **제출 직전** 최종 검증(단가·품절)용으로 쓴다. 카탈로그에서 매 수량 변경마다 API를 치지 않는 것은 **담기가 잦을 때** 네트워크·레이스를 줄이기 위한 선택이다(재고 화면은 정책이 다름 — §3).
+서버 draft는 **다른 기기·탭**이나 **로컬이 비었을 때** 복구용 + **제출 직전** 최종 검증(단가·품절)용이다.
 
-### 참고 코드
+### 예시 코드
 
-**전역 스토어 + persist 이름** — 담긴 줄이 여기 저장된다.
+**전역 스토어 + persist** — 담긴 줄이 여기 저장된다.
 
-```51:55:src/stores/cart-store.ts
+```tsx
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       lines: [],
-      shippingRequestByWarehouseId: {},
-```
-
-```168:169:src/stores/cart-store.ts
-    {
-      name: 'nh-cart',
+      shippingMemoByWarehouse: {},
+      addLine: (item) => { /* ... */ },
+      updateQuantity: (productId, quantity) => { /* ... */ },
+    }),
+    { name: 'cart-draft' },
+  ),
+);
 ```
 
 **카탈로그 수량 input은 스토어에서 읽음** — 페이지 전용 `useState`가 아님.
 
-```69:71:src/routes/nursing-hospital/supplies/CatalogPage.tsx
-  function getRowQtyValue(item: CatalogProduct) {
-    const inCartLine = cart.lines.find((l) => l.productId === item.id);
-    return inCartLine?.quantity ?? 0;
+```tsx
+function getRowQty(productId: string) {
+  const inCart = cart.lines.find((l) => l.productId === productId);
+  return inCart?.quantity ?? 0;
+}
+
+// JSX
+<input value={getRowQty(item.id)} onChange={...} />
 ```
 
-**로컬이 비었을 때만 서버 draft를 1회 가져옴** — 로컬 우선.
+**로컬이 비었을 때만 서버 draft를 1회 가져옴** — 로컬 우선 hydration.
 
-```6:21:src/hooks/use-nh-draft-hydration.ts
-/**
- * 서버 draft → Zustand 1회 동기화.
- * persist된 로컬 주문서가 있으면 덮어쓰지 않는다(로컬 우선).
- */
-...
-    if (useCartStore.getState().lines.length > 0) {
-      return;
-    }
+```tsx
+useEffect(() => {
+  if (cart.lines.length > 0) return; // 로컬 우선
+  const { lines } = await fetchDraftLines();
+  if (lines.length > 0) cart.replaceLinesFromServer(lines);
+}, []);
 ```
-
-### 이 레포에서는
-
-| 파일·키 | 역할 |
-|---------|------|
-| `src/stores/cart-store.ts` | 미제출 주문 줄·창고별 배송 메모의 **클라이언트 정본** |
-| localStorage `nh-cart` | 새로고침·재방문 시 복원 |
-| `src/hooks/use-nh-draft-hydration.ts` | 카탈로그·주문서 마운트 시 서버 draft **보조** 동기화 |
-| `CatalogPage` `useState` | 목록 필터·페이지네이션만 (담기 수량 아님) |
-| `catalogQueries` (React Query) | **상품 목록** 서버 읽기 전용 |
-
-### 면접 한 줄 (선택)
-
-“서버 state(Query), 클라이언트 전역(Zustand+persist), UI 로컬(useState)을 **수명·복구 요구**에 맞게 나눈다. 수량 input이 페이지에 있어도 **소유권**은 스토어에 있을 수 있다.”
 
 ---
 
 ## 2. 페이지 이동 시 값을 안 넘겨도 되는 이유
 
-지금 설명하는 것은 **라우트(URL)만 바꿀 때 데이터를 어떻게 이어 붙이는지**다.
+### 그림 — 카탈로그 → 주문서 (값을 “안 넘김”)
 
-### 한 줄 요약
-
-카탈로그→주문서는 **같은 Zustand 서랍**을 쓰는 두 방이라, `Link`로 **경로만** 바꾸면 된다 — props·query string으로 줄 목록을 실을 필요가 없다.
+```
+CatalogPage                    CartPage
+   │                                │
+   │  <Link to="/cart" />           │
+   │  (props / query 없음)          │
+   └──────────┬─────────────────────┘
+              │
+        useCartStore  ←── 같은 서랍
+        (persist)
+```
 
 ### 함정 한 가지
 
 **착각:** “다른 페이지로 가면 state가 초기화된다.”  
 **실제:** SPA에서 **컴포넌트 트리 일부만** 바뀌고, **모듈 최상위에 만든 Zustand 스토어**와 **localStorage**는 라우트와 무관하게 유지된다. 사라지는 것은 **그 페이지 컴포넌트의 `useState`** 뿐이다.
 
-### 왜 이렇게인가
+예전 패턴인 `location.state`로 장바구니 넘기기는 새로고침·딥링크에 약하다. 전역 store + persist면 **주문서 전용 URL**을 열어도 복구할 수 있다.
 
-React Router의 `Link`는 **주소만** 바꾼다. `CartOrderPage`는 마운트되면서 `useCartStore()`로 **이미 채워진 `lines`** 를 구독한다. 예전 패턴인 “location.state로 장바구니 넘기기”는 새로고침·딥링크에 약하고, 이 앱은 **주문서 전용 URL**(`/nursing-hospital/supplies/cart`)을 열어도 persist·draft hydration으로 복구할 수 있게 설계했다.
+### 확인 시나리오
 
-### 참고 코드
-
-**라우트만 분리** — 두 페이지는 형제 경로.
-
-```112:115:src/App.tsx
-      <Route path="/nursing-hospital/supplies/catalog" element={<CatalogPage />} />
-      <Route path="/nursing-hospital/supplies/inventory" element={<NHInventoryPage />} />
-      <Route path="/nursing-hospital/supplies/withdrawal" element={<WithdrawalPage />} />
-      <Route path="/nursing-hospital/supplies/cart" element={<CartOrderPage />} />
-```
-
-**카탈로그 — props 없이 Link만**
-
-```189:195:src/routes/nursing-hospital/supplies/CatalogPage.tsx
-                <Link
-                  to="/nursing-hospital/supplies/cart"
-                  className="btn btn--ghost"
-                  aria-label={`주문서 보기, 담긴 품목 ${lines.length}종`}
-                >
-                  {`주문서 보기 (${lines.length}종)`}
-```
-
-**주문서 — 같은 스토어 구독**
-
-```157:159:src/routes/nursing-hospital/supplies/CartOrderPage.tsx
-  const cart = useCartStore();
-
-  const lines = cart.lines;
-```
-
-### 이 레포에서는
-
-| 확인 방법 | 기대 결과 |
-|-----------|-----------|
+| 동작 | 기대 결과 |
+|------|-----------|
 | 카탈로그에서 수량 변경 → 「주문서 보기」 | 주문서에 동일 라인·수량 |
 | 주문서에서 수량 변경 → 뒤로 카탈로그 | 테이블 input에 반영 |
-| F5 on `/cart` | `nh-cart` 복원 후 목록 표시 (로컬에 줄이 있었으면) |
-
-기획: [cart-order.md](../docs/nursing-hospital/supplies/cart-order.md) — 주문서는 **전면 라우트**, 카탈로그에서 *주문서로* 링크.
-
-### 면접 한 줄 (선택)
-
-“페이지 간 공유가 필요하면 URL state보다 **전역 클라이언트 store + 필요 시 persist**가 딥링크·새로고침에 유리한 경우가 많다.”
+| 주문서 URL에서 F5 | localStorage 복원 후 목록 표시 |
 
 ---
 
 ## 3. 카탈로그 vs 재고 — draft 맞추는 시점
 
-지금 설명하는 것은 **같은 ‘담기’인데 왜 서버 호출 시점이 다른지**다.
-
-### 한 줄 요약 (정책)
-
-**카탈로그 담기 = 클라이언트에 먼저 쌓고**, **재고 담기 = 서버 draft에 먼저 맞춘 뒤** 스토어를 갱신한다. **제출**은 주문서에서 서버 draft와 한 번 더 맞춘 다음 주문 API를 친다.
-
 ### 함정 한 가지
 
-**착각:** “담기 = 항상 `postDraftLine`이다.”  
-**실제:** `CatalogPage`는 `nh-draft`를 import조차 하지 않는다. 테스트도 **카탈로그 담기 시 draft API 미호출**을 검증한다. 재고 `handleAddToSheet`만 `postDraftLine` / `patchDraftLine`을 **루프 안에서** 호출한다.
+**착각:** “담기 = 항상 서버 `POST draft`다.”  
+**실제:** **탐색형 카탈로그**는 수량 스테퍼를 연속으로 돌리는 동안 서버를 치지 않고, **재고의 일괄 담기**만 확정 시점에 draft API를 호출하는 식으로 **시점을 나눌 수 있다**. (팀 정책에 따라 카탈로그 ‘담기 버튼’ 클릭 시에만 POST하는 변형도 있다. 핵심은 **연속 입력마다 PATCH하지 않는 것**이다.)
 
-### 왜 이렇게인가
+### 왜 시점이 다른가
 
-카탈로그는 SKU 탐색·수량 조절이 **연속적**이라 매 키입력마다 서버와 맞추면 느리고, 실패 시 UX가 깨지기 쉽다. 재고의 “주문서에 담기”는 **선택한 부족 품목을 한 번에** 확정하는 액션이라, 서버 draft를 **즉시 정본에 가깝게** 두는 편이 안전하다. 어느 경로든 **주문 제출 직전** `syncDraftToServer`로 로컬·서버를 맞추고, 단가 변동·품절을 서버 응답으로 반영할 수 있다.
+카탈로그는 SKU 탐색·수량 조절이 **연속적**이라 매 키입력마다 서버와 맞추면 느리고, 실패 시 UX가 깨지기 쉽다. 재고의 “주문서에 담기”는 **선택한 부족 품목을 한 번에** 확정하는 액션이라, 서버 draft를 **즉시 정본에 가깝게** 두는 편이 안전하다. 어느 경로든 **주문 제출 직전**에 로컬·서버를 한 번 더 맞춘다.
 
-### 참고 코드
+### 예시 — 재고 일괄 담기 (서버 먼저)
 
-**재고 — 담기 시 draft API + 스토어 동기화**
-
-```127:133:src/routes/nursing-hospital/supplies/InventoryPage.tsx
-  const addDraftMutation = useMutation({
-    mutationFn: postDraftLine,
-  });
-  const patchDraftMutation = useMutation({
-    mutationFn: ({ productId, quantity }: { productId: string; quantity: number }) =>
-      patchDraftLine(productId, quantity),
-  });
+```tsx
+for (const item of selectedItems) {
+  const body = existing
+    ? await patchDraftLine(item.productId, existing.quantity + item.qty)
+    : await postDraftLine({ productId: item.productId, quantity: item.qty });
+  cart.syncLineFromDraft(body);
+}
 ```
 
-```218:240:src/routes/nursing-hospital/supplies/InventoryPage.tsx
-        if (existing) {
-          const body = await patchDraftMutation.mutateAsync({
-            productId: item.productId,
-            quantity: existing.quantity + targetQty,
-          });
-          useCartStore.getState().syncLineFromDraft(body);
-        } else {
-          const body = await addDraftMutation.mutateAsync({
-            productId: item.productId,
-            quantity: targetQty,
-          });
-          useCartStore.getState().addLine({
-            productId: body.productId,
-            ...
+### 예시 — 제출 직전 flush
+
+```tsx
+async function syncDraftToServer(localLines: CartLine[]) {
+  const serverLines = await fetchDraftLines();
+  // 서버에만 있는 줄 삭제, 로컬 줄 PATCH(수량·단가·가용 반영)
+  for (const line of localLines) {
+    if (line.quantity <= 0) continue;
+    const body = await patchDraftLine(line.productId, line.quantity);
+    cart.syncLineFromDraft(body);
+  }
+}
 ```
 
-**주문서 — 제출 확인 시에만 로컬→서버 draft 일괄 sync** (함수명 `syncDraftToServer`).
-
-```115:116:src/routes/nursing-hospital/supplies/CartOrderPage.tsx
-/** 제출 직전: 로컬 주문서 → 서버 draft (삭제·수량·단가·가용 반영) */
-async function syncDraftToServer(localLines: CartLine[]): Promise<DraftPriceChange[]> {
-```
-
-### 이 레포에서는
-
-| 진입 화면 | 담기 직후 | 제출 시 |
-|-----------|-----------|---------|
-| 물품 카탈로그 | `useCartStore`만 | `syncDraftToServer` → `createNHOrder` → `clearCart` + `clearAllDraftLines` |
-| 재고 현황 | draft API + 스토어 | 동일 |
-| (로컬 비어 있고 서버에만 draft) | `useNhDraftHydration` | 동일 |
-
-### 더 볼 것 (선택)
-
-- [catalog.md](../docs/nursing-hospital/supplies/catalog.md) — 행 단위 담기·주문서에서 공급처 변경 불가
-- [cart-order.md](../docs/nursing-hospital/supplies/cart-order.md) — 미제출 주문서·제출 흐름
-
-### 면접 한 줄 (선택)
-
-“클라이언트 SSOT와 서버 draft의 **동기화 시점**은 UX·일관성 트레이드오프다. 지연 sync는 빠르지만 제출 전 검증 단계가 필수다.”
+| 진입 화면 | 담기·편집 직후 | 제출 시 |
+|-----------|----------------|---------|
+| 물품 카탈로그 (연속 수량) | 전역 스토어만 | sync → 주문 API → 스토어·draft 비움 |
+| 주문서 `−`/`+` | 전역 스토어만 | 동일 |
+| 재고 일괄 담기 | draft API + 스토어 | 동일 |
+| 로컬 비어 있고 서버에만 draft | hydration 1회 | 동일 |
 
 ---
 
-## 더 볼 것 (공통)
+## 4. 주문서 수량 UX — 4단계 시행착오
 
-- INDEX의 [관련 개념 — 서버·클라이언트 state](./2026-05-28_concepts-server-client-state.md) (파일이 있으면 SSOT·낙관적 업데이트 심화)
-- [주문서 수량 UX 시행착오](./2026-05-28_react-query-optimistic-update.md) (파일이 있으면 debounce·낙관적 업데이트 역사)
+주문서 `−`/`+` 스테퍼를 고치면서 겪은 변경 여정이다. §1~3의 “최종 구조”가 **왜** 이렇게 됐는지 설명한다.
+
+```
+① 클릭마다 서버 반영
+   → ② 낙관적 업데이트 (UI 먼저 + onMutate)
+      → ③ 0.4초 뒤 PATCH (debounce)
+         → ④ 로컬만 편집, 제출 때 서버 sync  ← 권장
+```
+
+| 단계 | 의도 | 문제 |
+|------|------|------|
+| ① 서버 매번 | draft = DB니까 항상 sync | 연타 시 느림·깜빡임 |
+| ② 낙관적 | `onMutate`로 UI 먼저 | mutation 겹침(race) → `isPending` 잠금 UX |
+| ③ debounce | 멈춘 뒤 0.4초에 한 번 PATCH | SSOT 둘이면 응답이 늦게 와 숫자가 또 튐 |
+| ④ 로컬 SSOT | 편집은 store만 | 멀티 탭·다른 PC 동시 편집은 MVP 비범위 |
+
+**핵심:** “서버가 진실”인 건 **제출 직전(가격·가용·재고)** 이지, **스테퍼 한 번 한 번**이 아니다.
+
+### 함정 (다음에 비슷한 화면 만들 때)
+
+같은 데이터를 **로컬·서버·mutation 응답**이 동시에 고치면, 낙관적·debounce를 써도 숫자가 튈 수 있다. 먼저 **“편집 중 SSOT는 어디 하나?”** 를 정하고, 서버는 **언제 flush할지**만 정하자.
+
+### ④ 권장 — 스테퍼는 store만, 제출 때 flush
+
+```tsx
+function handleQtyStep(productId: string, delta: number) {
+  const line = cart.lines.find((l) => l.productId === productId);
+  if (!line) return;
+  const next = Math.max(0, line.quantity + delta);
+  if (next === 0) {
+    cart.removeLine(productId);
+    return;
+  }
+  cart.updateQuantity(productId, next);
+  // patchDraftLine 호출 없음
+}
+```
+
+```tsx
+async function handleConfirmSubmit() {
+  const changes = await syncDraftToServer(cart.lines);
+  if (changes.priceChanged) {
+    showPriceConfirmModal(changes);
+    return;
+  }
+  await submitOrder();
+  cart.clearCart();
+  await clearAllDraftLines();
+}
+```
+
+### ②③ 지나온 패턴 (대비용 · 피하는 이유)
+
+```tsx
+// ② 낙관적 — 연타 시 race, isPending 잠금
+onMutate: ({ productId, quantity }) => {
+  cart.updateQuantity(productId, quantity);
+  return { prevLine };
+},
+
+// ③ debounce — SSOT 둘이면 응답 덮어쓰기로 또 튐
+scheduleQtyCommitDebounce(productId);  // 400ms → patchDraftLine
+```
+
+---
+
+## 5. 관련 개념 (SSOT·Query·낙관적·debounce)
+
+§4 시행착오에서 쓰인 용어를 **장바구니·주문서 맥락**으로 짧게 정리한다.
+
+### SSOT (Single Source of Truth)
+
+같은 수량을 로컬·서버·API 응답이 동시에 고치면 화면이 “누구 말이 맞지?” 상태가 된다. **편집 중에는 하나만 진실**로 정한다.
+
+| SSOT | 장바구니 수량에서 |
+|------|-------------------|
+| 서버만 | ① 단계 — 스테퍼에 과함 |
+| **로컬 (권장)** | `−`/`+`는 스토어, 제출 때 flush |
+| 둘 다 실시간 | ②③ — 숫자 튐 |
+
+**함정:** “draft가 DB에 있으니 서버가 항상 SSOT”는 **제출·가격 검증**에는 맞고, **스테퍼 연타**에는 맞지 않을 수 있다.
+
+### 서버 state vs 클라이언트 state
+
+| | 서버 state | 클라이언트 state |
+|---|------------|------------------|
+| **어디** | DB, draft 테이블 | Zustand `lines`, localStorage |
+| **도구** | TanStack Query + fetch | Zustand `persist` |
+| **비유** | 공식 장부 | 메모장 — 제출할 때 장부에 옮김 |
+
+### TanStack Query — cache vs mutation
+
+- **cache:** `GET` 결과를 `queryKey`로 보관 — 상품 목록 등 **조회**
+- **mutation:** `POST`/`PATCH` — **쓰기**. `onMutate`로 낙관적 UI 가능
+- **invalidateQueries:** “다시 GET해서 맞추자” — 목록 갱신
+- **④ 주문서 편집:** 스테퍼 구간은 mutation 없이 **로컬만**
+
+### 낙관적 업데이트 · debounce · race
+
+| 개념 | 한 줄 | 주문서에서 |
+|------|-------|------------|
+| **낙관적** | UI 먼저, 실패 시 rollback | ② — 연타 race, 잠금 UX |
+| **debounce** | 입력 멈춘 뒤 한 번만 서버 | ③ — API는 줄지만 SSOT 둘이면 튐 |
+| **race** | 요청 B가 A보다 먼저 도착해 화면이 뒤집힘 | ②③ 공통 원인 |
+
+### Hydration · Flush
+
+- **Hydration:** 앱·페이지 진입 시 서버 draft를 스토어에 채움. **로컬에 줄이 있으면 GET 스킵** (로컬 우선)
+- **Flush:** 편집은 메모장에만 쓰다가 **제출** 때 장부에 옮김 (`syncDraftToServer`)
+
+### 패턴 선택 치트시트
+
+| UX 목표 | 추천 |
+|---------|------|
+| 스테퍼 즉시 반응 | 클라이언트 SSOT |
+| 제출 전 가격·재고 맞춤 | 제출 시 flush |
+| 다른 PC에서 이어쓰기 | 진입 서버 우선 + 편집마다 sync |
+| 좋아요 한 번 | 낙관적 OK |
+| 검색어 입력 | debounce OK |
+
+### 면접 한 줄
+
+“장바구니 수량은 편집 중 클라이언트 SSOT로 즉시 UX를 주고, 주문 제출 직전에만 서버와 맞춰 정합성·가격 검증을 한다. 클릭마다 PATCH는 race와 잠금 UX 때문에 피했다.”
+
+---
+
+## 더 볼 것
+
+- [TanStack Query — Optimistic Updates](https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates)
