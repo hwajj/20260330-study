@@ -1,6 +1,9 @@
-# 8주 플랜 — 커리큘럼 「먼저 읽기」
+# 8주 플랜 — 커리큘럼 「실무 주차와 겹치는 Day」
 
-[`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) §4-A와 **같은 주차**. 해당 주에 아래 Day md를 읽는다 (순서 권장).
+> **전체 15주 순서:** [`CURRICULUM-FULL-TRACK.md`](./CURRICULUM-FULL-TRACK.md) (이게 SSOT).  
+> 아래는 **STUDY-PLAN `CURRENT_WEEK` 1~8** 볼 때 «같이 읽으면 좋은» Day만 골라 둔 것.
+
+[`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) §4-A와 **같은 주차**. FULL 트랙 진행 중이면 **중복 Day는 스킵**하고 다음 미완 Day로.
 
 경로는 `frontend-dev-notes/docs/curriculum/...` (형제 레포).
 
