@@ -4,7 +4,9 @@
 
 | 트랙 | 파일 | 세션 키 예 |
 |------|------|------------|
-| FE 8W | [`active_fe.md`](./active_fe.md) | `W1-수` |
+| FE 8W | [`active_fe.md`](./active_fe.md) | `W1-목` |
+
+마지막 FE start: 2026-09-29 · W1 목
 | SI | [`active_si.md`](./active_si.md) | `SI-step-1` (HTTP·REST) |
 | Agent | [`active_agent.md`](./active_agent.md) | `Agent-step-1` |
 

@@ -28,4 +28,6 @@ DAY1부터 **주문·정산 챗 Agent** 레포를 켜고, 스펙 문서와 빈 �
 
 ## 메모
 
+- 레포 위치·Git push 정리: [`agent-repo-decision.md`](../agent-repo-decision.md) — **다음:** GitHub 목표 1/2/3 선택 후 스캐폴드·remote 스펙
+
 ## 막힌 질문
