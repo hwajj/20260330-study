@@ -30,22 +30,26 @@ SSOT: `STUDY-PLAN-AGENT.md`. 짝: **agent-session-start**.
 
 ### 3-B. `CURRENT_STEP`
 
-`step + 1` (18 초과 시 18 유지, 완료·유지보수 안내)
+`step + 1` (16 초과 시 16 유지, 완료·유지보수 안내)
 
 ### 3-C. §4
 
 - `마지막 Agent 세션`: `YYYY-MM-DD | 단계 {step} | …`
 - `막힌 질문`: 1줄 덮어쓰기
 - `리포 경로`: 사용자가 다른 경로 쓰면 갱신
-- 1~18 전부 ☑ → `18단계 완료` ☑
+- 1~16 전부 ☑ → `16단계 완료` ☑
 
 ### 3-D. 트랙 시작일
 
 `step === 1` 완료 & 비어 있으면 오늘 날짜.
 
-## 4. 세션 로그 (선택)
+## 4. `active_agent.md` (start 짝)
 
-`log/_common/sessions/AGENT-YYYY-MM-DD-step{step}.md`
+`active_agent.md`가 **Agent 단계 {step}** 세션이면 **si-session-wrap** §4와 동일:
+
+- archive: `log/_common/sessions/archive/{YYYY-MM-DD}-Agent-step-{step}.md`
+- 완료 후 `active_agent.md` 비우기 또는 완료 한 줄
+- «반만»이면 active_agent 유지
 
 ## 5. 하지 않기
 
@@ -53,7 +57,7 @@ SSOT: `STUDY-PLAN-AGENT.md`. 짝: **agent-session-start**.
 - `STUDY-PLAN-8W.md` / `STUDY-PLAN-SI.md` 수정 (각각 전용 wrap)
 - API 키·`.env` 실값 커밋 유도
 
-## 6. 예
+## 6. 트리거 예
 
 ```text
 agent-session-wrap

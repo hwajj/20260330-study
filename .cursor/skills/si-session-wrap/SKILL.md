@@ -51,32 +51,27 @@ SSOT: `STUDY-PLAN-SI.md`. 짝: **si-session-start** (start=읽기, wrap=쓰기).
 
 §4 **트랙 시작일**이 비어 있고 `step === 1` 완료 시 → 오늘 날짜.
 
-## 4. 세션 로그 (선택, 메모 있을 때)
+## 4. `active_si.md` (start 짝)
 
-경로: `log/_common/sessions/SI-YYYY-MM-DD-step{step}.md`
+`log/_common/sessions/active_si.md`가 있고 이번 wrap의 **단계 {step}** 세션이면:
 
-```markdown
-# SI 단계 {step} — {title}
+1. 채팅 **3줄 요약**·막힌 질문을 `## 메모` / `## 막힌 질문`에 반영했다고 가정하거나, wrap 입력 메모를 병합
+2. **완료 시:** 전체 또는 요약+메모를 `log/_common/sessions/archive/{YYYY-MM-DD}-SI-step-{step}.md`로 저장 (`archive/` 없으면 생성)
+3. `active_si.md`는 비우거나 `# SI 단계 {step} 완료` 한 줄만
 
-## 3줄 요약
-- …
+«반만»·§2 ☐ 유지 시: archive는 선택, **active_si는 그대로** 두고 요약만 채팅.
 
-## 작업
-…
+## 5. 세션 로그 (선택)
 
-## 막힌 질문 → 다음
-…
-```
+§4 archive와 **같은 파일**을 쓰면 중복 저장하지 않음. 메모만 길 때 위 archive에 `## 3줄 요약`·`## 작업` 추가.
 
-`log/_common/sessions/` 없으면 생성.
-
-## 5. 하지 않기
+## 6. 하지 않기
 
 - 미니 프로젝트 **전체 코드** 장문 작성
 - 사용자가 «반만»인데 §2 ☑
 - `STUDY-PLAN-8W.md` 수정 (FE wrap은 **study-session-wrap**)
 
-## 6. 트리거 예
+## 7. 트리거 예
 
 ```text
 si-session-wrap

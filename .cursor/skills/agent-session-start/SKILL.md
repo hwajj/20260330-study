@@ -1,97 +1,67 @@
 ---
 name: agent-session-start
 description: >-
-  Reads STUDY-PLAN-AGENT.md (CURRENT_STEP, §2 checklist, §0 portfolio spec).
-  Outputs weekend Agent portfolio step in plain Korean. Use when the user says
-  agent-session-start, Agent 포폴 시작, AI Agent 공부, or @STUDY-PLAN-AGENT.md session start.
+  STUDY-PLAN-AGENT.md 최소 읽기 → log/_common/sessions/active_agent.md 갱신. 채팅은 짧게.
+  트리거: agent-session-start, Agent 포폴 시작, /agent-session-start.
 ---
 
 # agent-session-start
 
-SSOT: `STUDY-PLAN-AGENT.md` (repo root `20260330-study`).  
-평일 FE: [`STUDY-PLAN-8W.md`](../../STUDY-PLAN-8W.md) — **Agent 세션에 저녁 90m 손코딩 배정하지 않음.**  
-SI 주말: [`STUDY-PLAN-SI.md`](../../STUDY-PLAN-SI.md) — 같은 날 SI와 **둘 다 넣지 않음** (사용자에게 한 트랙만).
+SSOT: `STUDY-PLAN-AGENT.md` (repo `20260330-study`).  
+평일 FE: [`STUDY-PLAN-8W.md`](../../STUDY-PLAN-8W.md) — Agent에 저녁 90m 넣지 않음.  
+SI: [`STUDY-PLAN-SI.md`](../../STUDY-PLAN-SI.md) — 같은 날 **SI 또는 Agent 하나만**.
 
-## 0. 말투
+**쓰기:** `log/_common/sessions/active_agent.md`. `active.md`는 트랙 목차. 섹션 순서는 **study-session-start** §3와 동일.
 
-- 먼저 «이번에 할 Agent 포폴 단계» 3~5줄 (일상어).
-- §0 **주문·정산 챗 Agent** 맥락은 **1줄**만 (처음 세션·단계 1~3에서만 조금 더).
-- `CURRENT_STEP`은 응답 맨 아래 «Agent 커서» 한 줄.
+**원칙:** 실행 SSOT는 `active_agent.md`. FE·SI active는 건드리지 않음. API 키는 `.env.example`만 안내.
 
-| 하기 | 하지 않기 |
-|------|-----------|
-| 단계 **1개** + 통과선 | 1~18 목록 전부 출력 |
-| 구현 단계에서 **도구 이름·HITL** 언급 | LangChain·MCP 전체 스택 권장 |
-| API 키는 `.env.example`만 안내 | 실제 키 요청·저장 |
+## 1. 읽기 (최소, 병렬)
 
-## 1. 파일 읽기
+| 대상 | 방법 |
+|------|------|
+| `CURRENT_STEP` | 상단 |
+| §2 step 행 | grep `\| \*\*{step}\*\* \|` |
+| §3 | `### {step} —` 블록만 (있으면) |
+| §4 `막힌 질문` | grep |
+| §0 포폴 한 줄 | 단계 1~2 또는 «뭐 만드는 거야»일 때만 짧게 |
 
-`STUDY-PLAN-AGENT.md`:
+## 2. step 결정
 
-- **`CURRENT_STEP`**
-- **§2** — 해당 번호 행
-- **§3** — 같은 번호 상세 (있으면)
-- **§0** — 포트폴리오 제안 (단계 1~5 또는 사용자가 «뭐 만드는 거야»일 때)
-- **§4** — `막힌 질문`, `마지막 Agent 세션`
+1. 사용자 **단계 N** / `— N만` → `step = N` (플랜 커서·☑ 유지, **active는 N으로 갱신**)
+2. 아니면 `CURRENT_STEP`
+3. step ☑ → 1~16 **첫 ☐**
+4. 전부 ☑ → 16 완료·README/데모 유지보수만. active 새 과제 없음
 
-## 2. 단계 결정
+## 3. `active_agent.md` (필수, 4번 아닐 때)
 
-1. 사용자 **단계 N** 명시 → `step = N`
-2. 아니면 `step = CURRENT_STEP`
-3. §2에서 `step`이 ☑ → **첫 ☐** (1~18)
-4. 전부 ☑ → 18 완료 안내 + README/데모 **유지보수**만 제안
+**세션 키:** `Agent-step-{step}`
 
-## 3. 출력 형식
+archive·재시작 규칙은 **si-session-start** §3와 동일 (`active_agent.md`만, `archive/{YYYY-MM-DD}-{이전키}.md`).
 
-```markdown
-## Agent 포폴 — 단계 {step} · {단계명}
+### 섹션
 
-### 오늘 할 일
+1. `# Agent — 단계 {step} · {단계명} — {YYYY-MM-DD} (KST)` + pull + `2~4h · 단계 1개 · SI와 같은 날 겹치지 않기`
+2. `## 실행 체크리스트` — §2 할 일 → `- [ ]`; 통과선 1~2개
+3. §3 경로·`src/labs/agent/` (**1단계**부터 레포·`ARCHITECTURE.md` 체크에 포함)
+4. `## 한 줄 목표` — 주문·정산 챗 Agent, **오늘 단계에 맞게** 1줄
+5. `## 참고` — 막힌 질문, 커서 줄
+6. `## 진행` / `## 메모` / `## 막힌 질문`
 
-1. …
-2. …
+**6~11:** 전체 소스 금지 — 체크에 **파일 경로·뼈대**만.
 
-### 통과선 (wrap 시)
+**1:** DAY1 — 스펙 문서 + `src/labs/agent/` 스캐폴드·빈 채팅 (구직·JD 수집 체크 **넣지 않음**).
 
-- …
+## 4. 채팅 (짧게)
 
-### 포폴 맥락 (한 줄)
+- 할 일 3~5줄
+- active_agent.md 체크 **N**개
+- 통과선 한 줄
+- **Agent 커서:** `{CURRENT_STEP}` → 실행 **단계 {step}** ({☐|☑})
 
-주문·정산 챗 Agent — 파싱·카탈로그·확인·엑셀·eval
+LangChain·MCP 스택 권장·실키 요청 금지.
 
-### 시간
+## 5. 하지 않기
 
-2~4h · 단계 1개 · SI 주말이면 Agent **또는** SI만
-
-### 작업 폴더
-
-`src/labs/agent/` (없으면 3단계에서 생성)
-
-### 막힌 질문
-
-- …
-
-### 끝나면
-
-`agent-session-wrap` + 메모
-
----
-
-**Agent 커서:** `{CURRENT_STEP}` → 실행 **단계 {step}** ({☐|☑})
-```
-
-**단계 6~11:** agent loop·도구·UI — **전체 소스 한 방에 주지 않기** (뼈대·파일 경로만).
-
-**단계 1:** JD 매핑만 — 코드 없음.
-
-## 4. 하지 않기
-
-- `CURRENT_STEP` / §2를 start에서 **파일에 쓰지 않음**
-- `STUDY-PLAN-8W.md` §4-A 요일표 섞지 않음
-- 회사 **대외비** 코드·실데이터를 포폴에 넣도록 유도하지 않음
-
-## 5. 트리거
-
-`agent-session-start` → CURRENT_STEP 기준 한 단계.
-
-`agent-session-start — 10만` → step=10, 체크 갱신 없음.
+- start에서 `STUDY-PLAN-AGENT.md` 수정
+- 8W §4-A 섞기, 대외비·실데이터 포폴 유도
+- active 없이 종료

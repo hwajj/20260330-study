@@ -52,6 +52,7 @@ SSOT: `STUDY-PLAN-8W.md`. 짝: **study-session-start** (start=읽기, wrap=쓰�
 - **`마지막 세션`:** `YYYY-MM-DD | W{week} | {day}` (오늘 날짜 KST 추정 가능하면 사용)
 - **`막힌 질문`:** 이번 세션에서 **다음 저녁/회사로 넘길** 질문 1줄로 **덮어쓰기** (없으면 `—`)
 - **Week `{week}` 메모 열:** 3줄 요약을 **한 줄**로 append 또는 짧게 교체 (너무 길면 `log/`에만 상세)
+- **TIL (선택):** 같은 날 `log/_common/til/YYYY-MM-DD.md` 맨 아래에 wrap 요약 1~3줄 붙이기
 
 ### 3-D. 주 완료
 
@@ -64,7 +65,7 @@ SSOT: `STUDY-PLAN-8W.md`. 짝: **study-session-start** (start=읽기, wrap=쓰�
 
 ## 4. 세션 로그 파일
 
-**start 짝:** `log/_common/sessions/active.md`가 있으면 `## 진행`·`## 메모`를 아래 아카이브에 반영한 뒤, 완료 시 `active.md`는 비우거나 «완료» 한 줄만 남긴다.
+**start 짝:** `log/_common/sessions/active_fe.md`가 있으면 `## 진행`·`## 메모`를 아래 아카이브에 반영한 뒤, 완료 시 `active_fe.md`는 비우거나 «완료» 한 줄만 남긴다.
 
 **아카이브 (선택, 메모 있을 때):** `log/_common/sessions/YYYY-MM-DD-W{week}-{day}.md`
 

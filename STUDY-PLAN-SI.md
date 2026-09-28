@@ -1,7 +1,7 @@
 # SI 대비 트랙 (번호 단계 SSOT)
 
 > **평일:** [`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) (FE 복기·면접 방어) — **이 문서와 시간 겹치지 않게.**  
-> **이 트랙:** 주말·여유 있을 때만. 세션: **si-session-start** → 공부 → **si-session-wrap**.  
+> **이 트랙:** 주말·여유 있을 때만. 세션: **si-session-start** (`log/_common/sessions/active_si.md` 갱신) → 공부 → **si-session-wrap**.  
 > 마지막 갱신: 2026-09-28
 
 **`CURRENT_STEP`:** `1` ← 다음에 할 **단계 번호** (1~20). `si-session-wrap` 완료 시 해당 단계 ☑ 후 +1.
@@ -44,11 +44,11 @@
 
 | # | ☑ | 단계 | 이번 세션 할 일 | 통과선 |
 |---|:--:|------|----------------|--------|
-| **1** | ☐ | 이력서 Java 1년 블록 | 과거 Spring 프로젝트: 기간·스택·**본인 API 1개**·팀 규모 초안 (대외비 제외) | 말로 2분, 거짓 없음 |
-| **2** | ☐ | Carenation·FE를 SI형으로 | 연동·API·인증·결제 불릿 3개 — **「백엔드 모르는 FE」가 아닌** 문장으로 | 이력서 요약 3줄 |
-| **3** | ☐ | 채널 열기 | 헤드헌터 3~5곳 + 원티드/링크드인 — 키워드 `Java` `Spring Boot` `웹개발` | 프로필·이력서 업로드 |
-| **4** | ☐ | JD 리서치 | SI·IT자회사 **Spring 웹** 공고 10개 — 스택 표 (Oracle/MySQL, React/Vue) | 표 1장 |
-| **5** | ☐ | 미니 프로젝트 스펙 | 도메인 고정 (예: 주문/회원) — 엔드포인트 목록·ER 스케치 1페이지 | README 목차만 |
+| **1** | ☐ | HTTP·REST (서버 계약) | 메서드·상태코드·Content-Type·JSON body — **curl**로 GET/POST/401(또는 404) **3요청** 실행, 응답마다 한 줄 해석 | 서버 책임 3 vs FE 책임 3 구분해서 말하기 |
+| **2** | ☐ | 레이어드 아키텍처 | Controller → Service → Repository·DTO 역할 — `carenation-project/nursing-hospital/server/` 또는 과거 BE 코드에서 **요청 1건 추적** (50~80줄) | 한 API 호출 순서 종이 그림 (5칸 이내) |
+| **3** | ☐ | Spring Boot 개념 | IoC/DI·Bean·`@RestController`/`@Service` — 공식 doc·AI 예제 **1개 읽기** + 패키지(layer) 구조 스케치 | Bean 주입이 필요한 이유 1분 |
+| **4** | ☐ | DB·JPA 개념 | 테이블·FK·트랜잭션·N+1 — 미니 도메인 **ER 1장** + «Repository를 왜 분리?» 노트 3줄 | CRUD 1건이 DB까지 가는 단계 5개 말하기 |
+| **5** | ☐ | API·도메인 설계 | 도메인 고정 (회원/주문 등) — REST 목록·validation·401 규칙·ER와 **일치** 확인 | README 목차 + 엔드포인트 표 1장 |
 | **6** | ☐ | Spring Boot 스켈레톤 | 프로젝트 생성, layer 패키지, health 또는 `/api` ping | 로컬 기동 |
 | **7** | ☐ | JPA + CRUD | 엔티티 1~2개, Repository, REST CRUD 1리소스 | Postman/curl OK |
 | **8** | ☐ | JWT 로그인 | 회원가입·로그인·Bearer 한 API — AI·공식 doc 우선 | 401/200 흐름 말 1분 |
@@ -71,17 +71,27 @@
 
 ## 3. 단계별 상세 (start가 가져갈 때)
 
-### 1 — 이력서 Java 1년 블록
+### 1 — HTTP·REST (서버 계약)
 
-- Spring Boot/MVC 여부, DB, WAS, **본인이 만든 API 예시 1개** (URL·역할만).
-- 1년이 **오래 전**이면: 「2026 재정비: 미니 프로젝트」를 10단계에서 연결.
+- MDN HTTP 개요 또는 `frontend-dev-notes` day-01을 **서버 관점**으로만 재독 (캐시·CORS는 2순위).
+- curl: 로컬/공개 API 아무거나 — **본문·상태코드·헤더**를 구분해서 적기.
 
-### 2 — Carenation·FE를 SI형으로
+### 2 — 레이어드 아키텍처
 
-- `STUDY-PLAN-8W.md` §6 한 줄 스토리를 **서버·연동 관점**으로 재작성.
-- nursing-hospital `server/` Express 경험이 있으면 **한 불릿** (API·인증·DB).
+- Express든 Spring이든 **같은 질문**: 라우트(Controller) → 비즈니스(Service) → DB(Repository) 어디에 있나?
+- FE `HttpClient`는 **계약 소비자** — BE는 **계약·상태·영속성** 담당이라고 한 줄 정리.
 
-### 5 — 미니 프로젝트 스펙 (권장)
+### 3 — Spring Boot 개념
+
+- `ApplicationContext`·생성자 주입만 이해해도 6단계 스켈레톤에서 덜 헤맴.
+- Udemy는 **여기서 시작하지 않음** — doc 30분 + AI 질문 2개.
+
+### 4 — DB·JPA 개념
+
+- N+1은 12단계 면접 전에 **개념만** — `fetch join` 구현은 7단계 이후.
+- MySQL·Oracle 차이는 SI JD용 **키워드** 수준 (4단계에서 표 3줄).
+
+### 5 — API·도메인 설계
 
 ```
 회원: POST /auth/register, POST /auth/login
