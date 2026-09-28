@@ -62,9 +62,11 @@ SSOT: `STUDY-PLAN-8W.md`. 짝: **study-session-start** (start=읽기, wrap=쓰�
 
 다음 주 첫 일(`CURRENT_WEEK` +1) 시 §10 다음 Week **시작일**이 비어 있으면 오늘 날짜로 채운다.
 
-## 4. 세션 로그 파일 (선택, 메모가 있을 때)
+## 4. 세션 로그 파일
 
-경로: `log/_common/sessions/YYYY-MM-DD-W{week}-{day}.md`
+**start 짝:** `log/_common/sessions/active.md`가 있으면 `## 진행`·`## 메모`를 아래 아카이브에 반영한 뒤, 완료 시 `active.md`는 비우거나 «완료» 한 줄만 남긴다.
+
+**아카이브 (선택, 메모 있을 때):** `log/_common/sessions/YYYY-MM-DD-W{week}-{day}.md`
 
 ```markdown
 # W{week} {day} — {title one line}
