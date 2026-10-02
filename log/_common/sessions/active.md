@@ -5,10 +5,13 @@
 | 트랙 | 파일 | 세션 키 예 |
 |------|------|------------|
 | FE 8W | [`active_fe.md`](./active_fe.md) | `W1-목` |
-
-마지막 FE start: 2026-09-29 · W1 목
+| Colleague commits | [`active_colleague_commit_study.md`](./active_colleague_commit_study.md) | `colleague-S01` |
 | SI | [`active_si.md`](./active_si.md) | `SI-step-1` (HTTP·REST) |
 | Agent | [`active_agent.md`](./active_agent.md) | `Agent-step-1` |
+
+마지막 FE start: 2026-09-29 · W1 목
+
+마지막 Colleague commit study: 2026-10-02 · SHARED S01 (덩어리 이어하기)
 
 마지막 SI start: 2026-09-28 · 단계 1
 
