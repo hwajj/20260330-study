@@ -1,6 +1,6 @@
 # Carenation 유지 + 8주 FE 복기 플랜 (SSOT)
 
-> 다른 Cursor 세션에서: **study-session-start** (할 일) → 공부 → **study-session-wrap** (체크·요약). `@STUDY-PLAN-8W.md`  
+> **study-session-start** (`active_fe.md` + `study/fe/`) → 공부 → **study-session-wrap**. `@STUDY-PLAN-8W.md`  
 > **커리큘럼 이론 (전체 15주):** [`CURRICULUM-FULL-TRACK.md`](./CURRICULUM-FULL-TRACK.md) ← **순서대로 전부**  
 > **실무 8주와 겹치는 Day만:** [`CURRICULUM-BRIDGE-8W.md`](./CURRICULUM-BRIDGE-8W.md)  
 > 마지막 갱신: 2026-09-28
@@ -123,7 +123,7 @@
 4. **엣지 (5m):** 빈 입력, 1개, 중복, overflow(개념만).
 5. **TIL (2m):** `log/_common/til/YYYY-MM-DD.md`에 `- PS: …` 한 줄 (패턴·깨달음 아무거나).
 
-**daily TIL:** `log/_common/til/YYYY-MM-DD.md` — 하루 1파일, 불릿 **3~7줄** (이론 / 회사 / PS / 저녁 중 오늘 한 것). 긴 노트는 `curriculum-notes`·`docs/notes`에 두고 TIL에는 한 줄만.
+**학습 노트:** `study/fe/{NN}-{slug}.md` — 이론·회사·PS·저녁은 노트 `## 진행`. **daily TIL**은 선택 (`til/`에 노트 링크 한 줄만도 OK).
 
 ### 주차별 사고 주제 (FE 복기와 맞춤)
 

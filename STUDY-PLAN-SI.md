@@ -1,7 +1,7 @@
 # SI 대비 트랙 (번호 단계 SSOT)
 
 > **평일:** [`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) (FE 복기·면접 방어) — **이 문서와 시간 겹치지 않게.**  
-> **이 트랙:** 주말·여유 있을 때만. 세션: **si-session-start** (`log/_common/sessions/active_si.md` 갱신) → 공부 → **si-session-wrap**.  
+> **이 트랙:** 주말·여유 있을 때만. 세션: **si-session-start** (`active_si.md` + `study/si/`) → **si-session-wrap**.  
 > 마지막 갱신: 2026-09-28
 
 **`CURRENT_STEP`:** `1` ← 다음에 할 **단계 번호** (1~20). `si-session-wrap` 완료 시 해당 단계 ☑ 후 +1.

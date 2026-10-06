@@ -1,7 +1,8 @@
-# Colleague commit study — SHARED S01 · 2026-10-02 (KST)
+# Colleague — SHARED S01
 
-다른 PC에서 이어할 때: **`20260330-study` repo pull** → 이 파일만 연다.  
-코드는 **`backoffice-shared`** (회사 clone 경로 동일하면 그대로).
+다른 PC: **`20260330-study` pull** → 이 파일 + 노트. 코드: **`backoffice-shared`**.
+
+**노트:** [`study/colleague/01-shared-s01.md`](../../../study/colleague/01-shared-s01.md)
 
 **세션 키:** `colleague-S01`  
 **커밋 범위:** `3c1e4ce` .. `7d15571`  

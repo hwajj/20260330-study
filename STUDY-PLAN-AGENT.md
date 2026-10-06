@@ -2,7 +2,7 @@
 
 > **평일:** [`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) 유지.  
 > **SI:** [`STUDY-PLAN-SI.md`](./STUDY-PLAN-SI.md) — 주말이 겹치면 **Agent vs SI 한 트랙만** (2~4h).  
-> 세션: **agent-session-start** (`log/_common/sessions/active_agent.md` 갱신) → 작업 → **agent-session-wrap**.  
+> 세션: **agent-session-start** (`active_agent.md` + `study/agent/`) → **agent-session-wrap**.  
 > 마지막 갱신: 2026-09-28
 
 **`CURRENT_STEP`:** `1` ← 다음 단계 (1~16). `agent-session-wrap` 완료 시 ☑ 후 +1.

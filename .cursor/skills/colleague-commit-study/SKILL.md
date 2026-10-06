@@ -16,14 +16,14 @@ description: >-
 |------|------------------------|
 | 커리큘럼·커밋 해시 | `.cursor/skills/colleague-commit-study/curriculum.md` |
 | 세션 ☑ (S01/M01…) | `.cursor/skills/colleague-commit-study/PROGRESS.md` |
-| **덩어리 0,1,2… 이어하기** | `log/_common/sessions/active_colleague_commit_study.md` |
+| **누적 학습 노트** | `study/colleague/{NN}-{id-kebab}.md` — `study/colleague/README.md` 표 |
+| **덩어리 체크** | `log/_common/sessions/active_colleague_commit_study.md` |
 | 덩어리 정의 템플릿 | `.cursor/skills/colleague-commit-study/session-chunks.md` |
-| TIL (덩어리) | `log/_common/til/YYYY-MM-DD.md` — `- colleague·{ID}·d{n}: …` |
-| TIL (세션 요약) | `log/_common/til/colleague-commit-study.md` — wrap 시 `## {ID}` 블록 |
+| TIL (덩어리, 선택) | `log/_common/til/YYYY-MM-DD.md` — `- colleague·{ID}·d{n}: …` |
 
-**원칙:** 실행 SSOT = **active 파일**. PROGRESS는 **세션 전체 wrap** 때만 ☑.
+**원칙:** 체크·다음 덩어리 = **active**. 배운 내용 = **study/colleague 노트 `## 진행`**. PROGRESS는 **세션 wrap** 때만 ☑.
 
-**TIL 원칙:** 세션이 크면 **덩어리 wrap = 기억 1줄**, **세션 wrap = 전체 핵심 3~5줄** (중복 줄이면 세션 wrap에서 합침).
+**TIL:** 덩어리 한 줄은 til에 **선택**; 세션 요약은 노트 `## 진행`에 3~5줄 (기존 `til/colleague-commit-study.md` 내용은 wrap 시 노트로 이관).
 
 ---
 
@@ -45,9 +45,10 @@ description: >-
 ## start
 
 1. **PROGRESS.md**, **active_colleague_commit_study.md**, **session-chunks.md**(해당 ID 섹션) 읽기.
-2. active의 세션 ID ≠ PROGRESS `CURRENT_SESSION` 이면 **session-chunks**로 active **재작성** (기존 `## 메모`/`## 막힌 질문`은 옮기기).
-3. active에서 **첫 ☐ 덩어리** 번호·이름 계산.
-4. 채팅 (짧게):
+2. active의 세션 ID ≠ PROGRESS `CURRENT_SESSION` 이면 **session-chunks**로 active **재작성** (기존 메모는 **study/colleague** 해당 세션 노트로 옮기기).
+3. 세션 ID에 맞는 `study/colleague/*.md` 없으면 README 규칙으로 생성 · `## 학습 할 일`은 덩어리 체크 요약(선택).
+4. active에서 **첫 ☐ 덩어리** 번호·이름 계산.
+5. 채팅 (짧게):
 
 ```markdown
 ## 커밋 학습
@@ -80,7 +81,7 @@ active의 덩어리 {n} 체크리스트만 수행 → 끝나면 `colleague-commi
 1. 사용자가 완료한 **덩어리 번호** (없으면 active에서 방금 언급한 번호).
 2. **active_colleague_commit_study.md**:
    - 해당 덩어리 블록 하위 `- [ ]` → `- [x]` (통과한 항목만; 반만이면 ☐ 유지)
-   - `## 진행`에 한 줄 (KST 시각 + 한 줄 배운 것)
+   - active `## 진행`에 한 줄 (있으면) + **study/colleague** 노트 `## 진행`에 덩어리 {n} 한 줄
    - `## 다음에 할 일` → **다음 ☐ 덩어리** 번호로 갱신
 3. **TIL (덩어리):** `log/_common/til/{YYYY-MM-DD}.md` (Asia/Seoul, 없으면 생성) 맨 아래 **1줄** append:
 
@@ -94,9 +95,7 @@ active의 덩어리 {n} 체크리스트만 수행 → 끝나면 `colleague-commi
 
 1. ID = PROGRESS `CURRENT_SESSION` (또는 사용자 지정).
 2. active 덩어리 **전부 [x]** 또는 사용자 “세션 wrap (덩어리 N 스킵)” 명시 — 스킵 시 PROGRESS ☑ **하지 않음**.
-3. **TIL (세션):** `log/_common/til/colleague-commit-study.md`에 섹션 append:
-
-   `## {ID} ({YYYY-MM-DD})` + 불릿 **3~5줄** (세션 핵심만). 같은 날 `colleague·{ID}·d*` daily 줄은 **여기서 통합·압축** (복붙 5줄 금지).
+3. **세션 노트:** `study/colleague/{NN}-{id}.md`의 `## 진행`에 `### {ID}` + 불릿 **3~5줄** (세션 핵심). daily `colleague·{ID}·d*` 줄은 **통합·압축**. 완료 시 `study/colleague/archive/…` 스냅샷 선택.
 
 4. **PROGRESS.md** ☑·완료일·`LAST_COMPLETED`·다음 ID·세션 메모.
 5. active → **다음 세션** 체크리스트 재생성.
