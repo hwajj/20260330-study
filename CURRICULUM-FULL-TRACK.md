@@ -10,7 +10,7 @@
 
 **`CURRENT_CURR_WEEK`:** `1` ← 커리큘럼 **1~15** (`week-01-web-js` … `week-15-career`).
 
-**`CURRENT_CURR_DAY`:** `day-01-http-basics` ← 아래 표의 **파일 slug** (다음에 읽을 Day). 완료 후 같은 주 **다음 행**으로.
+**`CURRENT_CURR_DAY`:** `day-02-network-flow` ← 아래 표의 **파일 slug** (다음에 읽을 Day). 완료 후 같은 주 **다음 행**으로.
 
 **`CURRENT_CURR_DAY` 완료 ☑**는 주차별 표에서 수동 체크하거나 `study-session-wrap` 메모에 남긴다.
 
@@ -35,7 +35,7 @@
 
 | ☑ | slug | 제목 |
 |----|------|------|
-| ☐ | [day-01-http-basics.md](../frontend-dev-notes/docs/curriculum/week-01-web-js/day-01-http-basics.md) | HTTP 기초 |
+| ☑ | [day-01-http-basics.md](../frontend-dev-notes/docs/curriculum/week-01-web-js/day-01-http-basics.md) | HTTP 기초 |
 | ☐ | [day-02-network-flow.md](../frontend-dev-notes/docs/curriculum/week-01-web-js/day-02-network-flow.md) | 네트워크 연결 흐름 |
 | ☐ | [day-03-rendering-1.md](../frontend-dev-notes/docs/curriculum/week-01-web-js/day-03-rendering-1.md) | 브라우저 렌더링(1) |
 | ☐ | [day-04-rendering-2.md](../frontend-dev-notes/docs/curriculum/week-01-web-js/day-04-rendering-2.md) | 브라우저 렌더링(2) |

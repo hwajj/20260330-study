@@ -3,15 +3,15 @@
 > **study-session-start** (`active_fe.md` + `study/fe/`) → 공부 → **study-session-wrap**. `@STUDY-PLAN-8W.md`  
 > **커리큘럼 이론 (전체 15주):** [`CURRICULUM-FULL-TRACK.md`](./CURRICULUM-FULL-TRACK.md) ← **순서대로 전부**  
 > **실무 8주와 겹치는 Day만:** [`CURRICULUM-BRIDGE-8W.md`](./CURRICULUM-BRIDGE-8W.md)  
-> 마지막 갱신: 2026-09-28
+> 마지막 갱신: 2026-10-08
 
 **`CURRENT_WEEK`:** `1` ← 주차 (1~8). 금요 §4-A 통과 후 또는 §4-B 해당 주 전 요일 ☑ 시 +1.
 
-**`CURRENT_DAY`:** `목` ← 다음에 할 **요일 커서** (`월|화|수|목|금|토|일`). 세션 **완료** 후 `study-session-wrap`(또는 수동)으로 다음 요일로 갱신.
+**`CURRENT_DAY`:** `토` ← 다음에 할 **요일 커서** (`월|화|수|목|금|토|일`). 세션 **완료** 후 `study-session-wrap`(또는 수동)으로 다음 요일로 갱신.
 
 **`CURRENT_CURR_WEEK`:** `1` ← 커리큘럼 **1~15** ([`CURRICULUM-FULL-TRACK.md`](./CURRICULUM-FULL-TRACK.md)).
 
-**`CURRENT_CURR_DAY`:** `day-01-http-basics` ← 다음에 읽을 Day **파일 slug**. Day 완료 후 FULL 트랙 표에서 다음 행.
+**`CURRENT_CURR_DAY`:** `day-02-network-flow` ← 다음에 읽을 Day **파일 slug**. Day 완료 후 FULL 트랙 표에서 다음 행.
 
 **커서 우선순위 (study-session-start):** 사용자가 채팅에 요일을 명시하면 그걸 쓴다 → 아니면 `CURRENT_DAY`가 §4-B에서 ☐이면 `CURRENT_DAY` → 아니면 해당 주 **왼쪽부터 첫 ☐** → 전부 ☑이면 주 완료 안내.
 
@@ -341,7 +341,7 @@
 
 | W | 월 | 화 | 수 | 목 | 금 | 토 | 일 |
 |---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| **1** | ☑ | ☑ | ☑ | ☐ | ☐ | ☐ | ☐ |
+| **1** | ☑ | ☑ | ☑ | ☑ | ☑ | ☐ | ☐ |
 | **2** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **3** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | **4** | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
@@ -470,7 +470,7 @@ study-session-wrap
 
 | Week | 시작일 | 완료 | 메모 |
 |------|--------|------|------|
-| 1 | 2026-09-20 | ☐ | W1 월: AuthHttpClient·401 큐 주석, JWT Storage/API/Service 분리 노트 / W1 화: 세션 종료(손코딩 메모 없음) / W1 수: wrap( active_fe·TIL 미기록 — 이어서 채우기) |
+| 1 | 2026-09-20 | ☐ | W1 월: AuthHttpClient·401 큐 주석, JWT Storage/API/Service 분리 노트 / W1 화: 세션 종료(손코딩 메모 없음) / W1 수: wrap( active_fe·TIL 미기록 — 이어서 채우기) / W1 목: wrap만 호출·active 미체크 — createGuardedInstance·401 토이·TIL PS는 이어서 / Day 노트 SSOT **이론·회사만** (PS·저녁은 플랜·TIL) |
 | 2 | | ☐ | |
 | 3 | | ☐ | |
 | 4 | | ☐ | |
@@ -479,7 +479,7 @@ study-session-wrap
 | 7 | | ☐ | |
 | 8 | | ☐ | |
 
-**마지막 세션:** `2026-09-28 | W1 | 수`
+**마지막 세션:** `2026-10-08 | W1 금 완료 | wrap — Day01 완료(wrap 보완)·archive, §4-B 금 ☑, curr day-02`
 
 **막힌 질문 (회사→저녁):** —
 

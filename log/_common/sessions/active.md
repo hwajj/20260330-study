@@ -10,7 +10,7 @@
 | IT 훑기 | [`04-agent-mlops.md`](../../study/tech-survey/04-agent-mlops.md) ← `CURRENT_ITEM` | [`study/tech-survey/`](../../study/tech-survey/) |
 | Colleague commits | [`active_colleague_commit_study.md`](./active_colleague_commit_study.md) | [`study/colleague/`](../../study/colleague/) |
 
-마지막 FE start: 2026-10-06 · `day-01-http-basics`
+마지막 FE start: 2026-10-08 · `day-01-http-basics`
 
 마지막 Colleague commit study: 2026-10-02 · SHARED S01
 

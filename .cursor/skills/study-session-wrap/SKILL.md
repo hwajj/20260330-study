@@ -1,58 +1,89 @@
 ---
 name: study-session-wrap
 description: >-
-  FE 세션 마무리: study/fe 노트 ## 진행 정리, STUDY-PLAN-8W §4-B·커서·§10, active 최소화.
-  study-session-wrap, 공부 마무리.
+  FE 세션 마무리: study/fe 노트 ## 진행·## 정리, archive 요약 파일 필수, STUDY-PLAN-8W §4-B·§10,
+  active 최소화. study-session-wrap, 공부 마무리.
 ---
 
 # study-session-wrap
 
-SSOT: `STUDY-PLAN-8W.md`. 짝: **study-session-start**.
+SSOT: `STUDY-PLAN-8W.md`. 짝: **study-session-start**. **형식 = tech-survey-wrap** (노트 중심, `## 진행`에 **이론/회사 구역 없음**).
 
-**노트 SSOT:** `study/fe/{NN}-{slug}.md` · **active:** 체크만.
+**노트 SSOT:** `study/fe/{NN}-{slug}.md` · **active:** 체크·다음 start 힌트만.
 
 ## 1. 입력
 
-- 세션 메모 — 없으면 짧게 질문
+- 세션 메모 — 없으면 노트 `## 진행`·`## 메모`
 - 완료 요일 — 없으면 `CURRENT_DAY`
 - Week — 없으면 `CURRENT_WEEK`
-- «반만» → §4-B ☐, 요약만
+- «반만» / 학습 미완 → §4-B ☐, `## 학습 할 일` `[ ]` 유지
+- «막힌 없음» → archive·채팅 막힌 `—`
+- **요일 완료:** §4-A 통과 또는 사용자 명시 → §4-B 해당 요일 ☑
 
-wrap 요청 + 완료 → 해당 요일 ☑.
+**커리큘럼 Day 완료** (이론 체크 전부 + 사용자 확인): `CURRENT_CURR_DAY` 다음 slug, `CURRENT_CURR_WEEK` 규칙 유지.
 
 ## 2. 채팅 (파일 수정 전)
 
-1. 오늘 3줄 요약  
-2. 막힌 질문 1개 → 답 2~4줄 + Why 1줄  
-3. 다음 start 힌트 — 다음 §4-A 요일·열 파일 한 줄  
+tech-survey-wrap과 동일 톤:
 
-## 3. STUDY-PLAN-8W.md (완료 시)
+1. 오늘 **3줄 요약**
+2. **막힌 1개** (없으면 —)
+3. **다음 start** — slug·노트 경로·§4-A 열 파일 한 줄
 
-3-A §4-B `{day}` ☑ · 3-B `CURRENT_DAY`/`CURRENT_WEEK` (월~토 다음 요일, 일→월+W+1) · 3-C §10 · 3-D 주 완료 — **기존 규칙 유지**.
+§10 «막힌 질문» 필드는 사용자가 적을 때만.
 
-**커리큘럼 Day 완료** (이론 4칸 다 했다고 사용자 확인 또는 메모): `CURRENT_CURR_DAY`·FULL-TRACK 표에서 **다음 slug**로 (안 했으면 유지).
+## 3. STUDY-PLAN-8W.md (요일 완료 시)
 
-## 4. 노트 + active (필수)
+§4-B `{day}` ☑ · `CURRENT_DAY`/`CURRENT_WEEK` (월~토 다음 요일, 일→월+W+1) · 주 완료 — **기존 규칙**.
 
-`slug` = wrap 시점 `CURRENT_CURR_DAY`. 노트를 **먼저** 읽는다.
+§10: **마지막 세션** 한 줄 + (선택) Week 메모.
+
+«반만»: 플랜 §4-B ☐ · `CURRENT_DAY` 유지.
+
+## 4. 노트 (`slug` = wrap 시점 `CURRENT_CURR_DAY`)
+
+노트를 **먼저** 읽는다.
 
 ### 4-A. `## 진행` 정리
 
-- **`## 학습 할 일` 건드리지 않음**
-- active 체크 순으로 `## 진행` 재구성 (`### 이론` / `회사` / `사고력` / `저녁` 유지)
-- 사용자·active 메모 우선; 빈 칸만 `(wrap 보완)`
-- `## 막힌 질문` → §10에 넘길 1줄 반영
+- **`## 학습 할 일`:** start 전용 문구 유지. **요일·Day 완료 세션**이면 해당 `- [ ]` → `- [x]` (반만이면 건드리지 않음).
+- `## 진행`을 **`## 학습 할 일` 항목 순서**로 재구성.
+- 각 항목 = **`### {체크 한 줄 제목}`** (tech-survey 항목 md와 동일 — **`### 이론` / `### 회사` 금지**).
+- 사용자·세션 메모 우선; 빈 칸만 `(wrap 보완)` 또는 **미완** 한 줄.
 
-### 4-B. 완료 시 (요일 ☑)
+### 4-B. `## 정리` (wrap마다)
 
-- `study/fe/archive/{YYYY-MM-DD}-{slug}.md` — 노트 `## 진행`·요약 스냅샷 (선택, 메모 있을 때)
-- `active_fe.md` 비우거나 `# FE — {slug} 완료` 한 줄
-- (선택) `log/_common/til/{date}.md` wrap 요약 1~3줄
+노트에 **`## 정리`** 섹션을 두고, 이번 wrap에서 **말로 설명 가능한 요약**을 적는다 (tech-survey `## 정리`와 동일 역할).
 
-«반만»: 4-A만, active 유지.
+- **반만:** 5~15줄 또는 bullet — 오늘 한 것 + 남은 것.
+- **완료:** 통과선·면접 말하기까지 묶는 **한 덩어리** (code fence 허용).
+
+기존 `## 메모`는 유지. PS·저녁·§4-C 내용은 노트에 **넣지 않음**.
+
+### 4-C. archive (**매 wrap 필수**)
+
+경로: `study/fe/archive/{YYYY-MM-DD}-{slug}.md`  
+(같은 날 재-wrap 시 **같은 파일 덮어쓰기**.)
+
+필수 포함:
+
+1. 제목 + **미완/완료** + SSOT 노트 상대 링크
+2. **`## active 체크`** — `## 학습 할 일` 복사 (wrap 시점 `[ ]`/`[x]`)
+3. **`## 진행`** — wrap 직후 노트 `## 진행` 스냅샷
+4. **`## wrap 요약`** — 채팅 3줄 + 막힌 1개 + 다음 start 한 줄
+5. (있으면) **`## 정리`** — 노트 `## 정리` 복사
+
+«반만»도 archive **생성·갱신** (선택 아님).
+
+### 4-D. `active_fe.md`
+
+- 다음 **study-session-start** 한 줄 + 노트 링크
+- 진행 장문·이론/회사 구역 **없음**
 
 ## 5. 하지 않기
 
 - `sessions/archive/` 신규 저장
 - 손코딩 정답 장문
 - 반만인데 §4-B ☑
+- 노트에 `### 이론` / `### 회사` / `### 사고력` / `### 저녁` / `## 막힌 질문` **신규 추가**
+- wrap에서 `## 학습 할 일`을 정답 목록으로 **전면 교체**
