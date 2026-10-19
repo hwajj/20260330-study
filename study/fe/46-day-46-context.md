@@ -1,0 +1,63 @@
+# Day 46 · Context API
+
+> **go 정리본** · 원문: `frontend-dev-notes/docs/curriculum/week-07-react-state-error/day-46-context.md` · active: [`active_fe.md`](../../log/_common/sessions/active_fe.md)
+
+## 학습 할 일
+
+- [x] Provider → `useContext` 전달 구조
+- [x] Props Drilling 완화 목적·범위
+- [x] Context ≠ 만능 전역 상태 / RQ·Zustand와 역할 분담
+- [x] `value={{…}}` 매 렌더 새 참조 → 구독자 리렌더
+- [x] **실무:** W8 손과제 URL-sync 토이 / bridge — 테마·auth vs URL 리스트 상태
+- [x] 변경 빈도 낮은 값에 적합하다는 기준
+- [x] **통과선** — Context vs URL-sync vs RQ 한 표로 말하기
+
+## 정리
+
+### 한 줄
+
+Context는 트리 아래로 **값을 주입**하는 메커니즘이고, 복잡한 갱신·서버 캐시·빈번한 필터 상태까지 해결하진 않는다.
+
+### 핵심
+
+- Props Drilling을 줄이려 쓴다. 테마·locale·현재 유저처럼 **넓고 덜 바뀌는** 값에 적합.
+- Provider `value`가 바뀌면 그 Context를 읽는 컴포넌트가 업데이트 대상. 매 렌더 새 객체면 실질 변경 없어도 리렌더.
+- 값 안정화: state를 나누거나 `useMemo`로 value 구성, 또는 상태/디스패치를 Context 분리.
+- **리스트 URL 파라미터**는 Context보다 URL(SSOT)+`useListParams` 패턴이 공유·뒤로가기에 맞다. W8 bridge 손과제가 그 연습.
+- 서버 목록은 RQ. 클라이언트 UI 전역이 커지면 Zustand/Redux(Day47).
+
+### 흐름
+
+```
+<ThemeProvider value={theme}>
+  …깊은 트리…
+  useContext(Theme) → theme
+value 참조 변경 → 구독자 리렌더
+```
+
+### 차이·함정
+
+| 대비 | 한 줄 |
+|------|--------|
+| Context vs props | 주입 vs 명시 전달(가까운 거리는 props가 명확) |
+| Context vs Zustand | 전달 메커니즘 vs 구독형 스토어 |
+| Context vs URL-sync | 트리 공유 vs 주소창 SSOT |
+| 큰 자주 바뀌는 value | 리렌더 폭발 |
+
+### 실무 연결
+
+- **W8 월 · URL-sync + list query 손과제**: 필터는 쿼리스트링, 데이터는 `useQuery(['list', params])`. Context에 필터를 넣지 않는다. bridge 주간 목표 = “어디에 상태를 둘지” 선택.
+- auth/session Provider는 Context(또는 전용 스토어)로 두고, 목록 상태와 분리.
+
+### 면접 한 방
+
+- **Q:** Context 쓰면 전역 상태 끝인가?
+- **답:** 아니다. 전달 도구에 가깝다. 빈번·복잡한 갱신은 스토어, 서버 데이터는 RQ, 공유 링크가 필요하면 URL. value 참조 관리도 필수다.
+
+### 통과선 스크립트
+
+1. Provider/Consumer 한 줄.
+2. Drilling 완화 목적.
+3. value 참조 → 리렌더.
+4. Context/Zustand/RQ/URL 역할 한 단어씩.
+5. W8 토이: 필터는 URL.

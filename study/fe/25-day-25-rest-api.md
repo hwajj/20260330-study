@@ -1,0 +1,83 @@
+# Day 25 · REST API
+
+> **go 정리본** · 원문: `frontend-dev-notes/docs/curriculum/week-04-network-perf/day-25-rest-api.md` · active: [`active_fe.md`](../../log/_common/sessions/active_fe.md)
+
+## 학습 할 일
+
+- [x] REST = 자원(URL) + 행위(HTTP 메서드)로 설명
+- [x] GET/POST/PUT/PATCH/DELETE · Path vs Query 구분
+- [x] 상태 코드 2xx/4xx/5xx + 401 vs 403
+- [x] 에러 규격·페이지네이션 쿼리 규칙 한 줄
+- [x] **dailycare resume §라우팅** — `/dailycare` 중첩·nginx·basename
+- [x] Repository·`code === 200` 규약이 REST 클라이언트로 어떻게 보이는지
+- [x] **면접 Q** — PUT vs PATCH / Path vs Query
+- [x] **통과선** — 자원 설계 + dailycare 라우팅 5분 모의
+
+## 정리
+
+### 한 줄
+
+REST는 **URL로 자원을 가리키고 HTTP 메서드로 행위**를 나타내며, FE는 그 계약을 fetch/Repository로 지키되 **HTTP 200이어도 body `code`가 실패일 수 있다**는 carenation 규약까지 포함해 말한다.
+
+### 핵심
+
+- **자원 중심**: `/users`, `/users/42/orders`처럼 복수 명사·계층. 동사는 URL이 아니라 메서드.
+- **메서드**: GET 조회 · POST 생성 · PUT 전체 교체(멱등) · PATCH 부분 수정 · DELETE 삭제.
+- **Path vs Query**: 특정 자원 식별 → Path(`/jobs/:id`). 필터·정렬·페이징 → Query(`?tab=&page=`).
+- **상태 코드**: 200 OK, 201 Created, 204 No Content, 400/401/403/404, 500. **401=미인증, 403=권한 없음**.
+- **설계 포인트**: 버저닝(`/v1` 또는 헤더), 에러 `{code,message}`, 페이지네이션 쿼리 표준화.
+- **carenation 함정**: HTTP 200 + body `code !== 200` → 비즈니스 실패. status만 보면 UI가 “성공”으로 깨진다.
+
+### 흐름
+
+```
+클라이언트
+  → HTTP Method + URL(Path/Query) + Header(Authorization…)
+  → 서버: 자원 식별 → 행위 수행
+  → Status + Body
+FE 파싱: status AND (규약이면) body.code
+```
+
+dailycare 라우팅(실무 축):
+
+```
+nginx /dailycare 서브패스
+  → CRA SPA (homepage 필드 ❌ — sub_filter와 이중 prefix)
+  → Route path `/dailycare/...` + navigate('/dailycare/...')
+  → 정적 자산만 withStaticPath(REACT_APP_ROUTER_BASENAME)
+```
+
+### 차이·함정
+
+| 대비 | 한 줄 |
+|------|--------|
+| PUT vs PATCH | 전체 교체 vs 부분 수정 |
+| Path vs Query | 식별자 vs 필터·페이징 |
+| 401 vs 403 | 누구인지 모름 vs 누구인 줄 알지만 권한 없음 |
+| HTTP 200 vs `code===200` | 전송 성공 ≠ 도메인 성공(care/dailycare) |
+| CRA `homepage` vs Route path | 빌드 prefix 넣으면 nginx 치환과 **경로 이중** |
+
+### 실무 연결
+
+- **log** `app-dailycare/resume` §라우팅: `/dailycare` 중첩(login·history·jobs/:id·payment·result) + `AuthGuard` 보호.
+- **왜 homepage 안 씀**: nginx `sub_filter`가 static/js를 치환 → 빌드에 prefix 넣으면 `/dailycare/dailycare/...` 위험.
+- **API**: `JobRepository`/`PaymentRepository`가 REST 엔드포인트·snake 필드를 UI 타입으로 감춤. `REACT_APP_CARE_API_URL`로 `/v3_0/protector` 등 prefix 분기.
+- **모의 1(월)**: “nginx·basename 5분” — 라우팅은 path, 정적 자산은 env prefix로 **분리**.
+
+### 면접 한 방
+
+- **Q:** PUT과 PATCH 차이, Path/Query는 언제?
+- **답:** PUT은 자원 전체 교체(멱등), PATCH는 일부 필드만. 식별은 Path(`/users/42`), 목록 조건은 Query(`?sort=&page=`). 우리 쪽은 HTTP 상태뿐 아니라 body `code===200`까지 성공으로 본다.
+
+### 통과선 스크립트
+
+1. REST = 자원 URL + 메서드 행위.
+2. CRUD ↔ GET/POST/PUT·PATCH/DELETE 한 줄.
+3. Path=식별, Query=필터.
+4. 자주 쓰는 상태 코드 + 401/403.
+5. 에러·페이지네이션은 팀 규약으로 통일.
+6. dailycare: `/dailycare` SPA, homepage 안 씀 이유(nginx 이중 path).
+7. 정적 자산만 `withStaticPath`, 라우팅 basename과 분리.
+8. Repository가 REST·매핑을 UI에서 격리.
+9. `code===200` 규약 한 줄.
+10. 모의: basename 질문을 5분 끊김 없이.

@@ -1,0 +1,76 @@
+# 11-3 · 인증·인가 서버 관점
+
+> **go 정리본** · 원문: `frontend-dev-notes/docs/curriculum/week-11-backend/11-3-auth-server.md` · active: [`active_fe.md`](../../log/_common/sessions/active_fe.md)
+
+## 학습 할 일
+
+- [x] 세션 스토어·수평 확장·Redis 공유 세션
+- [x] Redis 세션 vs 캐시 용도 구분
+- [x] JWT 검증·stateless·즉시 무효화 한계
+- [x] Refresh rotation·탈취 방어
+- [x] OAuth 2.0 Authorization Code + PKCE
+- [x] RBAC 역할 기반 인가
+- [x] sticky session vs 공유 스토어
+- [x] **통과선** — 세션/JWT·Redis·PKCE 30초
+
+## 정리
+
+### 한 줄
+
+**세션**은 서버(또는 Redis)에 상태를 두고 쿠키로 id만 주고, **JWT**는 서명으로 stateless 검증하지만 **즉시 revoke가 어렵다** — 짧은 access + **refresh rotation**, SPA는 **Code+PKCE**, Redis는 **세션 vs 캐시** 목적을 구분해 말한다.
+
+### 핵심
+
+- **세션**: `sessionId → user` in memory/Redis. 서버 N대면 **세션이 한 대에만** 있으면 401/로그아웃 — **Redis 세션 스토어** 또는 sticky session(덜 선호).
+- **Redis 이중 용도**: **세션** 유실 → 전원 재로그인; **캐시** 유실 → DB에서 다시 채움(느려짐). 키 prefix·TTL·장애 영향 다름 — “Redis 씀”만 말하지 말 것.
+- **JWT**: access에 claims, 서버는 **서명·exp 검증**. logout/탈취 시 **블랙리스트·token version·짧은 TTL** 필요. refresh는 httpOnly cookie·rotation으로 **재사용 탐지**.
+- **OAuth/OIDC**: 제3자 로그인. **Authorization Code**(토큰을 URL fragment에 안 실음). **PKCE**: SPA/모바일에서 code 탈취 방지 — `code_verifier`/`challenge`.
+- **RBAC**: role → permission. FE는 UI 가리기, **진짜 검증은 API**.
+
+### 흐름
+
+```
+[세션 + Redis]
+  Login → server sets session in Redis, Set-Cookie sessionId
+  Request → cookie → any app server reads Redis → OK
+
+[JWT + refresh]
+  Login → access(short) + refresh(httpOnly)
+  API → Authorization: Bearer access
+  401 → refresh endpoint → new pair, old refresh invalidated (rotation)
+
+[OAuth PKCE SPA]
+  redirect authorize?code_challenge=
+  callback ?code=
+  POST token + code_verifier → access/id_token
+```
+
+### 차이·함정
+
+| 대비 | 한 줄 |
+|------|--------|
+| 세션 vs JWT | 서버 상태·revoke 쉬움 vs 확장·무상태 |
+| Redis 세션 vs 캐시 | 로그인 상태 vs 성능 사본 |
+| access in memory vs localStorage | XSS — 보통 memory+refresh cookie |
+| PKCE vs confidential client | 공개 클라 vs server secret |
+| RBAC UI vs API | UI 숨김 ≠ 보안 |
+
+### 실무 연결
+
+- SPA **logout 3층**(storage·Query cache·서버 revoke) — 11-3 서버 revoke/세션 삭제와 짝.
+- axios **401 큐** + refresh — 서버 rotation 정책과 맞춰야 infinite loop 없음.
+- `@backoffice-fe` JWT 추상화: FE는 검증 안 하고 **attach + 401 처리**, 서버가 exp/role.
+
+### 면접 한 방
+
+- **Q:** JWT를 바로 무효화하기 어려운 이유와 대응은?
+- **답:** stateless면 발급 후 서버가 상태를 안 갖는다. access TTL을 짧게, refresh rotation으로 탈취를 줄이고, 필요하면 블랙리스트나 token version claim으로 revoke한다. 세션 방식은 스토어에서 id만 지우면 즉시 무효.
+
+### 통과선 스크립트
+
+1. 세션 쿠키 + 공유 Redis = 수평 확장.
+2. Redis 세션 vs 캐시 장애 영향.
+3. JWT 장단·revoke 한계.
+4. refresh rotation 한 줄.
+5. OAuth Code + PKCE가 SPA에 필요한 이유.
+6. RBAC는 서버에서 enforce.

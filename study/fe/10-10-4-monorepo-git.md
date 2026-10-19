@@ -1,0 +1,71 @@
+# 10-4 · 모노레포 & Git 설정
+
+> **go 정리본** · 원문: `frontend-dev-notes/docs/curriculum/week-10-tooling/10-4-monorepo-git.md` · active: [`active_fe.md`](../../log/_common/sessions/active_fe.md)
+
+## 학습 할 일
+
+- [x] 모노레포 — workspaces · Turborepo · pnpm
+- [x] 장단점 — 공유·원자적 변경 vs CI 복잡도
+- [x] `workspace:*` — 내부 패키지 링크
+- [x] tsconfig `paths` + 번들러 alias 정합
+- [x] `.git/info/exclude` — 로컬만 ignore
+- [x] `.gitignore` vs exclude
+- [x] 로컬 alias 빌드 깨짐 원인
+- [x] **통과선** — monorepo / alias / exclude 30초
+
+## 정리
+
+### 한 줄
+
+모노레포는 **여러 패키지를 한 레포에서 workspace로 묶어 공유·원자적 변경**을 하고, **tsconfig paths와 번들러 resolve를 같이** 맞추며, 개인 ignore는 **`.git/info/exclude`**로 팀 `.gitignore`를 오염시키지 않는다.
+
+### 핵심
+
+- **모노레포**: apps + packages(workspaces). pnpm workspace, Turborepo 캐시·파이프라인. **장점**: 코드 공유, 한 PR에 API+UI, 툴링 일관. **단점**: CI/빌드 그래프, 패키지 경계·버전 관리.
+- **`workspace:*`**: 내부 dep를 npm registry 대신 로컬 패키지에 링크 — backoffice-shared → 앱들.
+- **로컬 alias**: `@app/*`, `@backoffice-fe/*` — **tsconfig paths**만으론 타입만 통과, **webpack/Vite resolve.alias** 없으면 빌드·런타임 module not found.
+- **`.git/info/exclude`**: `.gitignore`와 문법 같지만 **로컬 전용**, 커밋 안 됨. IDE scratch·로컬 dist junction 등 팀 규칙 밖 파일.
+- **`.gitignore`**: 레포 공유 — 팀 SSOT.
+
+### 흐름
+
+```
+패키지 추가
+  → packages/foo package.json name
+  → consumer: "foo": "workspace:*"
+  → tsconfig paths + vite/webpack alias 동기
+개발
+  → turbo/pnpm -r build · filter
+로컬만 무시
+  → .git/info/exclude (팀 ignore 건드리지 않음)
+```
+
+### 차이·함정
+
+| 대비 | 한 줄 |
+|------|--------|
+| mono vs multi repo | 공유·원자성 vs 독립 배포 단순 |
+| paths vs alias | TS vs 번들러 resolve |
+| gitignore vs exclude | 공유 vs 개인 |
+| workspace vs npm link | pnpm/yarn 공식 vs 수동 link |
+| phantom dep (pnpm) | strict hoisting — 숨은 dep 드러남(10-5) |
+
+### 실무 연결
+
+- `notes/study/2026-05-29_monorepo-local-alias.md` — alias 정합.
+- `notes/2026-06-02_git-local-exclude.md` — local exclude.
+- backoffice-shared + adjuster 앱: workspace 프로토콜, local-test skill junction.
+
+### 면접 한 방
+
+- **Q:** 모노레포 장단, alias가 빌드에서 깨지는 이유?
+- **답:** 코드 공유·원자적 변경·일관 툴링 vs CI·경계 복잡. tsconfig paths만 있고 번들러 alias가 없으면 타입은 되는데 빌드가 모듈을 못 찾는다. 로컬만 ignore는 `.git/info/exclude`.
+
+### 통과선 스크립트
+
+1. 모노레포 = workspaces 한 레포.
+2. 장점 2 · 단점 2.
+3. workspace:* 내부 링크.
+4. paths + bundler alias 둘 다.
+5. gitignore 공유 vs exclude 로컬.
+6. exclude 사용 상황 한 줄.

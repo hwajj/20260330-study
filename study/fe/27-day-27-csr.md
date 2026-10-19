@@ -1,0 +1,80 @@
+# Day 27 · CSR
+
+> **go 정리본** · 원문: `frontend-dev-notes/docs/curriculum/week-04-network-perf/day-27-csr.md` · active: [`active_fe.md`](../../log/_common/sessions/active_fe.md)
+
+## 학습 할 일
+
+- [x] CSR 흐름 — 빈 HTML → JS 번들 → 클라이언트 렌더
+- [x] SPA · 초기 로드·TTI·SEO 약점
+- [x] CSR 장단 + 초기 로드 개선(스플리팅·preload)
+- [x] Day28 SSR 대비를 위한 한 줄 준비
+- [x] **AuthGuard** — 토큰 없으면 login replace + `state.from`
+- [x] **apiRequest 401** — clearAuth + login assign (care 동일)
+- [x] **면접 Q** — CSR 장단 / SEO 완화
+- [x] **통과선** — CSR 흐름 + AuthGuard·401 녹음
+
+## 정리
+
+### 한 줄
+
+CSR/SPA는 서버가 **껍데기 HTML+JS**만 주고 브라우저가 화면·라우팅을 그리며, dailycare도 그 모델이라 **첫 페인트 전 JS 실행**이 필요하고, 보호 구간은 **AuthGuard(진입 차단) + 401 assign(세션 만료)** 두 층으로 막는다.
+
+### 핵심
+
+- **CSR**: 서버=빈 셸, 클라이언트=데이터 fetch·DOM 구성.
+- **SPA**: 풀 페이지 전환 없이 클라이언트 라우터가 URL·뷰 교체 → 전환 UX↑, 서버 HTML 부담↓.
+- **약점**: Initial load(번들 다운로드·파싱·실행)로 TTI 늦을 수 있음. 초기 HTML 비어 SEO 취약.
+- **완화**: 코드 스플리팅, 번들 축소, preload, 데이터 프리패치; SEO는 SSR/SSG·프리렌더(Day28).
+- **가드 ≠ 인터셉터**: Guard는 **라우트 진입 전** UI 문. 401 처리는 **이미 들어간 뒤** API 실패 시 세션 정리.
+
+### 흐름
+
+```
+요청 → index.html(빈 루트) + JS/CSS
+  → JS 실행 → Router 매칭
+  → AuthGuard: 토큰? 없으면 /dailycare/login (replace, state.from)
+  → 페이지 mount → fetch → 화면
+```
+
+401 층:
+
+```
+apiRequest 401
+  → clearAuth (localStorage 토큰 제거)
+  → location.assign(login)   // care와 동일 세션 만료 UX
+```
+
+### 차이·함정
+
+| 대비 | 한 줄 |
+|------|--------|
+| CSR vs MPA | JS가 화면 vs 서버가 매 요청 HTML |
+| 빠른 전환 vs 느린 첫 로드 | SPA 강점 vs 번들 비용 |
+| AuthGuard vs 401 handler | 미로그인 진입 차단 vs 만료 후 강제 로그아웃 |
+| replace vs push login | 뒤로가기로 보호 페이지 재진입 방지에 replace |
+| clearAuth만 vs assign | 토큰만 지우면 URL이 남을 수 있음 → Guard/assign으로 맞춤 |
+
+### 실무 연결
+
+- **dailycare** `AuthGuard.tsx`: localStorage 토큰 없으면 `/dailycare/login` replace, `state.from`으로 복귀.
+- **`api/client.ts`**: 401 → `clearAuth` + 로그인 assign — care 앱과 동일 계약.
+- CSR이라 서버가 “로그인 HTML”을 안 줌 → **클라이언트 가드가 유일한 문** (보안은 결국 API 토큰 검증).
+- **수 모의**: AuthGuard·401을 녹음 — “가드는 문, 401은 만료 청소” 한 문장.
+
+### 면접 한 방
+
+- **Q:** CSR 장단과 SEO/초기 로드 대응은?
+- **답:** 장점은 앱처럼 빠른 전환·서버 렌더 부담 감소. 단점은 첫 JS 로드·실행 전 빈 화면, 크롤러가 빈 HTML을 볼 수 있음. 스플리팅·preload로 TTI를 줄이고, SEO가 중요하면 SSR/SSG로 초기 HTML을 준다. SPA 보호 라우트는 AuthGuard로 막고, API 401에서는 토큰 클리어 후 로그인으로 보낸다.
+
+### 통과선 스크립트
+
+1. CSR = 빈 HTML + JS가 그림.
+2. SPA = 클라이언트 라우팅.
+3. 장점 전환·단점 초기/SEO.
+4. 개선: split / preload / prefetch.
+5. SEO 본격은 Day28 SSR.
+6. dailycare는 CRA CSR SPA.
+7. AuthGuard: 토큰 없으면 login + from.
+8. 401: clearAuth + assign.
+9. Guard와 401은 시점·역할이 다름.
+10. 보안의 최종 판단은 서버 토큰 검증.
