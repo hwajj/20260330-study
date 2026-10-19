@@ -11,8 +11,10 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/health": "http://localhost:8787",
-      "/api": "http://localhost:8787",
+      "^/(health|chat|catalog|tools|sessions|files|webhook)": {
+        target: "http://localhost:8787",
+        changeOrigin: true,
+      },
     },
   },
 });

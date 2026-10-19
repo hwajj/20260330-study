@@ -1,0 +1,23 @@
+[
+  {
+    "sku": "RADISH",
+    "name": "무",
+    "synonyms": ["무", "무우"],
+    "defaultUnit": "개",
+    "unitPrice": 1200
+  },
+  {
+    "sku": "PEPPER_POWDER",
+    "name": "고춧가루",
+    "synonyms": ["고춧가루", "고추가루"],
+    "defaultUnit": "통",
+    "unitPrice": 8500
+  },
+  {
+    "sku": "PEPPER",
+    "name": "고추",
+    "synonyms": ["고추", "청양고추"],
+    "defaultUnit": "개",
+    "unitPrice": 500
+  }
+]

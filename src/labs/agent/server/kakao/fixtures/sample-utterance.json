@@ -1,0 +1,11 @@
+{
+  "userRequest": {
+    "utterance": "무2개 고춧가루 1통",
+    "user": {
+      "id": "stub-user-001",
+      "properties": {
+        "botUserKey": "stub-user-001"
+      }
+    }
+  }
+}
