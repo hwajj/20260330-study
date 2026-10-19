@@ -1,12 +1,28 @@
 ﻿# Agent 15 · 데모 녹화
 
-> 체크: [ctive_agent.md](../../log/_common/sessions/active_agent.md)
+> **go** · 플랜 단계 15 · 사용자 결정: **녹화 없이 닫음** (라이브+스크립트+smoke로 대체)
 
 ## 학습 할 일
 
+- [x] 3분 스크립트 `src/labs/agent/DEMO.md`
+- [x] dry-run: smoke · golden 경로 검증
+- [x] **통과선(완화):** 녹화 생략 · `pnpm dev`로 동일 시나리오 재현 + DEMO.md
+- [x] README에 데모 안내 (영상은 추후 `demo/` 선택)
+
 ## 진행
+
+- 사용자: «녹화 없이 15 닫고 16만 ☑»
+- 산출: DEMO.md · smoke/golden · UI 시나리오
+
+## 정리
+
+### 한 줄
+데모는 라이브 재현+대본으로 닫고, 영상은 선택 과제로 남긴다.
+
+### 핵심
+- §0-B «녹화 또는 GIF» — 이번에는 라이브 재현으로 갈음
+- 나중에 `demo/`에 넣으면 README만 링크 추가
 
 ## 메모
 
 ## 막힌 질문
-

@@ -1,12 +1,13 @@
 ﻿# Agent 11 · 시스템 프롬프트·가드
 
-> 체크: [ctive_agent.md](../../log/_common/sessions/active_agent.md)
+> **go** · 단계 11
 
 ## 학습 할 일
 
-## 진행
+- [x] allowlist · 단가 도구만 · injection 1줄
+- [x] `SAFETY.md` 1페이지
 
-## 메모
+## 정리
 
-## 막힌 질문
-
+### 한 줄
+프롬프트 + 서버 게이트가 환각 단가·무단 엑셀을 막는다.

@@ -6,7 +6,7 @@ description: >-
 
 # si-session-wrap
 
-SSOT: `STUDY-PLAN-SI.md`. 짝: **si-session-start**.
+SSOT: `STUDY-PLAN-SI.md`. 짝: **si-session-start**. 한 방: **si-session-go** (`sgo`).
 
 **노트:** `study/si/{NN}-{slug}.md` · **active:** 체크만.
 

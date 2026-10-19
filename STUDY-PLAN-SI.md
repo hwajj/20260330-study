@@ -1,10 +1,10 @@
 # SI 대비 트랙 (번호 단계 SSOT)
 
 > **평일:** [`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) (FE 복기·면접 방어) — **이 문서와 시간 겹치지 않게.**  
-> **이 트랙:** 주말·여유 있을 때만. 세션: **si-session-start** (`active_si.md` + `study/si/`) → **si-session-wrap**.  
-> 마지막 갱신: 2026-09-28
+> **이 트랙:** 주말·여유 있을 때만. 세션: **si-session-start** → **si-session-wrap**, 또는 한 방 **si-session-go** (`sgo` / `si-gogo`).  
+> 마지막 갱신: 2026-10-19
 
-**`CURRENT_STEP`:** `1` ← 다음에 할 **단계 번호** (1~20). `si-session-wrap` 완료 시 해당 단계 ☑ 후 +1.
+**`CURRENT_STEP`:** `9` ← 다음에 할 **단계 번호** (1~20). `si-session-wrap` / `sgo` 완료 시 해당 단계 ☑ 후 +1.
 
 **목표 시점:** 약 2개월 (8주 FE 플랜과 병행 가능, SI는 **주말 우선**).
 
@@ -39,19 +39,19 @@
 
 ## 2. 단계 체크 (1 → 20)
 
-`si-session-start`는 **`CURRENT_STEP` 행**과 아래 표에서 같은 번호를 읽는다.  
-완료 시 `si-session-wrap`이 **☐ → ☑** 및 `CURRENT_STEP` +1.
+`si-session-start` / `sgo`는 **`CURRENT_STEP` 행**과 아래 표에서 같은 번호를 읽는다.  
+완료 시 `si-session-wrap` / `sgo`가 **☐ → ☑** 및 `CURRENT_STEP` +1.
 
 | # | ☑ | 단계 | 이번 세션 할 일 | 통과선 |
 |---|:--:|------|----------------|--------|
-| **1** | ☐ | HTTP·REST (서버 계약) | 메서드·상태코드·Content-Type·JSON body — **curl**로 GET/POST/401(또는 404) **3요청** 실행, 응답마다 한 줄 해석 | 서버 책임 3 vs FE 책임 3 구분해서 말하기 |
-| **2** | ☐ | 레이어드 아키텍처 | Controller → Service → Repository·DTO 역할 — `carenation-project/nursing-hospital/server/` 또는 과거 BE 코드에서 **요청 1건 추적** (50~80줄) | 한 API 호출 순서 종이 그림 (5칸 이내) |
-| **3** | ☐ | Spring Boot 개념 | IoC/DI·Bean·`@RestController`/`@Service` — 공식 doc·AI 예제 **1개 읽기** + 패키지(layer) 구조 스케치 | Bean 주입이 필요한 이유 1분 |
-| **4** | ☐ | DB·JPA 개념 | 테이블·FK·트랜잭션·N+1 — 미니 도메인 **ER 1장** + «Repository를 왜 분리?» 노트 3줄 | CRUD 1건이 DB까지 가는 단계 5개 말하기 |
-| **5** | ☐ | API·도메인 설계 | 도메인 고정 (회원/주문 등) — REST 목록·validation·401 규칙·ER와 **일치** 확인 | README 목차 + 엔드포인트 표 1장 |
-| **6** | ☐ | Spring Boot 스켈레톤 | 프로젝트 생성, layer 패키지, health 또는 `/api` ping | 로컬 기동 |
-| **7** | ☐ | JPA + CRUD | 엔티티 1~2개, Repository, REST CRUD 1리소스 | Postman/curl OK |
-| **8** | ☐ | JWT 로그인 | 회원가입·로그인·Bearer 한 API — AI·공식 doc 우선 | 401/200 흐름 말 1분 |
+| **1** | ☑ | HTTP·REST (서버 계약) | 메서드·상태코드·Content-Type·JSON body — **curl**로 GET/POST/401(또는 404) **3요청** 실행, 응답마다 한 줄 해석 | 서버 책임 3 vs FE 책임 3 구분해서 말하기 |
+| **2** | ☑ | 레이어드 아키텍처 | Controller → Service → Repository·DTO 역할 — `carenation-project/nursing-hospital/server/` 또는 과거 BE 코드에서 **요청 1건 추적** (50~80줄) | 한 API 호출 순서 종이 그림 (5칸 이내) |
+| **3** | ☑ | Spring Boot 개념 | IoC/DI·Bean·`@RestController`/`@Service` — 공식 doc·AI 예제 **1개 읽기** + 패키지(layer) 구조 스케치 | Bean 주입이 필요한 이유 1분 |
+| **4** | ☑ | DB·JPA 개념 | 테이블·FK·트랜잭션·N+1 — 미니 도메인 **ER 1장** + «Repository를 왜 분리?» 노트 3줄 | CRUD 1건이 DB까지 가는 단계 5개 말하기 |
+| **5** | ☑ | API·도메인 설계 | 도메인 고정 (회원/주문 등) — REST 목록·validation·401 규칙·ER와 **일치** 확인 | README 목차 + 엔드포인트 표 1장 |
+| **6** | ☑ | Spring Boot 스켈레톤 | 프로젝트 생성, layer 패키지, health 또는 `/api` ping | 로컬 기동 |
+| **7** | ☑ | JPA + CRUD | 엔티티 1~2개, Repository, REST CRUD 1리소스 | Postman/curl OK |
+| **8** | ☑ | JWT 로그인 | 회원가입·로그인·Bearer 한 API — AI·공식 doc 우선 | 401/200 흐름 말 1분 |
 | **9** | ☐ | Docker Compose | app + MySQL compose, README에 `docker compose up` | 새 PC에서도 기동 |
 | **10** | ☐ | Git·이력서 반영 | public 또는 private repo + 이력서 **프로젝트 블록** 추가 | 링크·기술스택 일치 |
 | **11** | ☐ | Java 기초 면접 | 컬렉션·equals/hashCode·String·예외 — **질문 10개 답 1줄** 노트 | 입으로 5개 |
@@ -113,9 +113,9 @@ FE는 **2개월 SI 1순위 아님** — Postman으로 충분.
 
 | 항목 | 값 |
 |------|-----|
-| **트랙 시작일** | |
+| **트랙 시작일** | 2026-10-19 |
 | **20단계 완료** | ☐ |
-| **마지막 SI 세션** | — |
+| **마지막 SI 세션** | 2026-10-19 \| step 2~8 go 연속 \| mini-api JWT·CRUD·archive, →9 (compose: Docker 데몬 OFF로 중단) |
 | **막힌 질문 (다음 세션)** | — |
 | **지원·면접 로그** | (날짜 \| 회사 \| 단계 \| 메모 한 줄) |
 
@@ -123,7 +123,15 @@ FE는 **2개월 SI 1순위 아님** — Postman으로 충분.
 
 ## 5. 세션 프롬프트
 
-**시작:**
+**한 방 (권장):**
+
+```text
+si-session-go
+```
+
+또는 `sgo` / `si-gogo` / `/si-go`. 연속: `sgo 쭉` · `sgo 3단계`.
+
+**시작만:**
 
 ```text
 si-session-start
@@ -135,7 +143,7 @@ si-session-start
 @STUDY-PLAN-SI.md si-session-start — 단계 7만 미리
 ```
 
-**마무리:**
+**마무리만:**
 
 ```text
 si-session-wrap
@@ -150,7 +158,7 @@ si-session-wrap
 study-session-start
 ```
 
-(평일) + 주말에만 `si-session-start`.
+(평일) + 주말에만 `si-session-start` / `sgo`.
 
 ---
 

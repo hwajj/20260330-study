@@ -1,24 +1,24 @@
-# SI — 단계 1 · HTTP·REST (서버 계약)
+# SI — 단계 9 · Docker Compose (연속 sgo 중단점)
 
-다른 PC: repo **pull** → 이 파일 + 노트 링크.
+pull 후 이 파일 + 노트. **Docker Desktop 켠 뒤** `sgo`로 9부터 재개.
 
-**노트:** [`study/si/01-http-rest.md`](../../../study/si/01-http-rest.md)
+**노트:** [`study/si/09-docker-compose.md`](../../../study/si/09-docker-compose.md)
 
 ## 실행 체크리스트
 
-- [ ] HTTP 메서드 중 미니 API에 쓸 것 2~3개 골라 언제 쓰는지 한 줄씩
-- [ ] 상태코드 200·201·400·401·404·500 — 서버가 말하는 것 한 줄씩
-- [ ] `Content-Type: application/json` 계약 예시 JSON 1개
-- [ ] curl GET 1회 — status·body 해석을 노트 `## 진행`에
-- [ ] curl POST(또는 PUT) 1회
-- [ ] curl 401 또는 404 1회 — 서버 이유 한 줄
-- [ ] 통과선: 서버 책임 3 vs FE 3 말로 설명
+- [x] compose·Dockerfile·README 작성
+- [x] `docker compose config` OK
+- [ ] Docker Desktop 실행
+- [ ] `cd src/labs/si/mini-api && docker compose up --build`
+- [ ] `curl http://localhost:8080/api/ping` → ok
+- [ ] 통과선: 새 셸에서도 compose로 기동 가능
 
 ## 한 줄 목표
 
-HTTP를 BE 관점에서 읽기
+MySQL+앱을 compose 한 방으로 기동
 
 ## 참고
 
-- 막힌 질문: —
-- `CURRENT_STEP` → **단계 1** (☐)
+- 직전: step 2~8 완료 (2026-10-19 sgo 쭉) · `mini-api` H2에서 JWT·CRUD 확인
+- `CURRENT_STEP` → **단계 9** (☐)
+- 막힌: Docker 데몬 `docker_engine` pipe 없음

@@ -1,12 +1,13 @@
 ﻿# Agent 10 · Trace UI
 
-> 체크: [ctive_agent.md](../../log/_common/sessions/active_agent.md)
+> **go** · 단계 10
 
 ## 학습 할 일
 
-## 진행
+- [x] 사이드바 step/tool/args/result
+- [x] **통과선:** 데모에서 보임 (`web/App.tsx` aside)
 
-## 메모
+## 정리
 
-## 막힌 질문
-
+### 한 줄
+매 턴 도구 호출을 Trace 패널에 노출.

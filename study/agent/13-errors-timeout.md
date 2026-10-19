@@ -1,12 +1,13 @@
 ﻿# Agent 13 · 에러·타임아웃
 
-> 체크: [ctive_agent.md](../../log/_common/sessions/active_agent.md)
+> **go** · 단계 13
 
 ## 학습 할 일
 
-## 진행
+- [x] `/chat` 502 + retryable · UI 1회 재시도
+- [x] 오류 메시지 표시 · UI 깨짐 없음
 
-## 메모
+## 정리
 
-## 막힌 질문
-
+### 한 줄
+실패 시 재시도 1회 후 시스템 메시지로 안내.

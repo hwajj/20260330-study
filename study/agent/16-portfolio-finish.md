@@ -1,12 +1,28 @@
 ﻿# Agent 16 · 포폴 마무리
 
-> 체크: [ctive_agent.md](../../log/_common/sessions/active_agent.md)
+> **go** · 플랜 단계 16 · 트랙 완료
 
 ## 학습 할 일
 
+- [x] 이력서 불릿 1줄 (`PORTFOLIO.md`)
+- [x] §0-B 자가 점검 · 실패 모드 2개 · 한계
+- [x] repo 경로 링크 명시 (push·공개 범위는 후속)
+- [x] **통과선:** 불릿 + 링크 + 자가 점검 문서화
+
 ## 진행
+
+- PORTFOLIO.md 갱신 · 15 녹화 생략 반영
+- 선택: 카카오 웹훅 스텁·KAKAO-SETUP.md (트랙 선택 항목)
+
+## 정리
+
+### 한 줄
+하이브리드 Agent 포폴 문서·코드 트랙을 닫았다. push·영상은 선택 후속.
+
+### 핵심
+- 면접: 카탈로그 정본 · HITL · Trace · 골든 5
+- 한계: 실 LLM 키 미검증 · 녹화 선택 · remote push 확인
 
 ## 메모
 
 ## 막힌 질문
-

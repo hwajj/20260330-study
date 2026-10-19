@@ -2,10 +2,10 @@
 
 > **평일:** [`STUDY-PLAN-8W.md`](./STUDY-PLAN-8W.md) 유지.  
 > **SI:** [`STUDY-PLAN-SI.md`](./STUDY-PLAN-SI.md) — 주말이 겹치면 **Agent vs SI 한 트랙만** (2~4h).  
-> 세션: **agent-session-start** (`active_agent.md` + `study/agent/`) → **agent-session-wrap**.  
-> 마지막 갱신: 2026-09-28
+> 세션: **agent-session-start** → **agent-session-wrap**, 또는 한 방 **agent-session-go** (`ago` / `agent-gogo`).  
+> 마지막 갱신: 2026-10-19
 
-**`CURRENT_STEP`:** `1` ← 다음 단계 (1~16). `agent-session-wrap` 완료 시 ☑ 후 +1.
+**`CURRENT_STEP`:** `done` ← 1~16 완료. `agent-session-wrap` / `ago` 완료 시 ☑ 후 +1.
 
 ---
 
@@ -88,22 +88,22 @@ SI 주말과 **같은 날**이면: Agent **또는** SI만.
 
 | # | ☑ | 단계 | 이번 세션 할 일 | 통과선 |
 |---|:--:|------|----------------|--------|
-| **1** | ☐ | DAY1 — 스펙·레포 기동 | `src/labs/agent/ARCHITECTURE.md`(도구 4·§0 입력 통과선·HITL·트레이스·eval 목차)·`server/`+`web/`·`.env.example`·README 한 줄 | `pnpm dev` — ping/health + **빈 채팅 화면** |
-| **2** | ☐ | 카탈로그 API | `GET /catalog`, `POST /catalog/resolve` mock — LLM 안 거침 | curl OK |
-| **3** | ☐ | Tool 스키마 | Zod/JSON Schema 4개 + **서버에서만** 실행 | 잘못된 인자 거절 |
-| **4** | ☐ | Agent 루프 | user → (optional tools)* → assistant, max steps 제한 | 무한 루프 없음 |
-| **5** | ☐ | `parse_line_items` | `무2 고추2` 등 → `{ raw, qty, unit? }[]` | 트레이스에 기록 |
-| **6** | ☐ | `resolve_products` | 동의어·애매 SKU → matched / **candidates** | 환각 SKU 없음 |
-| **7** | ☐ | `quote_settlement` | 행별 단가·수량·**합계** (서버 계산만) | LLM 숫자와 불일치 시 도구만 신뢰 |
-| **8** | ☐ | HITL 확인 | 요약 카드 → 사용자 **확인** 후에만 다음 단계 | 확인 없이 엑셀 X |
-| **9** | ☐ | `generate_settlement_excel` | 확인된 quote → `.xlsx` + 다운로드 URL | 시트 행 수 = 품목 수 |
-| **10** | ☐ | Trace UI | 사이드바: step, tool, args, result 요약 | 데모에서 보임 |
-| **11** | ☐ | 시스템 프롬프트·가드 | allowlist, 단가 금지 규칙, injection 1줄 시나리오 | `SAFETY.md` 1페이지 |
-| **12** | ☐ | 골든 eval | 5문장 (`무2 고추2` 필수) + 기대 도구 순서·행 수; 3개 수동 통과 | 표 + 메모 |
-| **13** | ☐ | 에러·타임아웃 | API/LLM 실패 시 사용자 메시지·재시도 1회 | UI 깨짐 없음 |
-| **14** | ☐ | README | 설치·env·5분 시나리오·**카카오 웹훅 개념도**·하이브리드 설명 | 면접 전날 재현 |
-| **15** | ☐ | 데모 녹화 | 3분: 주문 문장 → 확인 → 엑셀 | 말 끊김 1회 이하 |
-| **16** | ☐ | 포폴 마무리 | 이력서 **불릿 1줄** + repo 링크·§0-B 데모 통과선 자가 점검 | 트랙 ☑ |
+| **1** | ☑ | DAY1 — 스펙·레포 기동 | `src/labs/agent/ARCHITECTURE.md`(도구 4·§0 입력 통과선·HITL·트레이스·eval 목차)·`server/`+`web/`·`.env.example`·README 한 줄 | `pnpm dev` — ping/health + **빈 채팅 화면** |
+| **2** | ☑ | 카탈로그 API | `GET /catalog`, `POST /catalog/resolve` mock — LLM 안 거침 | curl OK |
+| **3** | ☑ | Tool 스키마 | Zod/JSON Schema 4개 + **서버에서만** 실행 | 잘못된 인자 거절 |
+| **4** | ☑ | Agent 루프 | user → (optional tools)* → assistant, max steps 제한 | 무한 루프 없음 |
+| **5** | ☑ | `parse_line_items` | `무2 고추2` 등 → `{ raw, qty, unit? }[]` | 트레이스에 기록 |
+| **6** | ☑ | `resolve_products` | 동의어·애매 SKU → matched / **candidates** | 환각 SKU 없음 |
+| **7** | ☑ | `quote_settlement` | 행별 단가·수량·**합계** (서버 계산만) | LLM 숫자와 불일치 시 도구만 신뢰 |
+| **8** | ☑ | HITL 확인 | 요약 카드 → 사용자 **확인** 후에만 다음 단계 | 확인 없이 엑셀 X |
+| **9** | ☑ | `generate_settlement_excel` | 확인된 quote → `.xlsx` + 다운로드 URL | 시트 행 수 = 품목 수 |
+| **10** | ☑ | Trace UI | 사이드바: step, tool, args, result 요약 | 데모에서 보임 |
+| **11** | ☑ | 시스템 프롬프트·가드 | allowlist, 단가 금지 규칙, injection 1줄 시나리오 | `SAFETY.md` 1페이지 |
+| **12** | ☑ | 골든 eval | 5문장 (`무2 고추2` 필수) + 기대 도구 순서·행 수; 3개 수동 통과 | 표 + 메모 |
+| **13** | ☑ | 에러·타임아웃 | API/LLM 실패 시 사용자 메시지·재시도 1회 | UI 깨짐 없음 |
+| **14** | ☑ | README | 설치·env·5분 시나리오·**카카오 웹훅 개념도**·하이브리드 설명 | 면접 전날 재현 |
+| **15** | ☑ | 데모 녹화 | 3분: 주문 문장 → 확인 · 엑셀 (녹화 생략 → 라이브+DEMO.md+smoke) | 말 끊김 1회 이하 · **완화 완료** |
+| **16** | ☑ | 포폴 마무리 | 이력서 **불릿 1줄** + repo 링크·§0-B 데모 통과선 자가 점검 | 트랙 ☑ |
 
 **선택 (+1 세션 each):** 카카오 채널 **웹훅 스텁** · `eval/run.ts` CI 한 job · MCP로 `get_catalog_item` 노출.
 
@@ -157,9 +157,9 @@ generate_settlement_excel({ quoteId | rows[] }) → { fileId, downloadUrl }
 
 | 항목 | 값 |
 |------|-----|
-| **트랙 시작일** | |
-| **16단계 완료** | ☐ |
-| **마지막 Agent 세션** | — |
+| **트랙 시작일** | 2026-10-19 |
+| **16단계 완료** | ☑ |
+| **마지막 Agent 세션** | 2026-10-19 \| step 15~16 go \| 녹화 생략·포폴 마무리, →done |
 | **막힌 질문** | — |
 | **리포 경로** | `src/labs/agent/` |
 | **포폴 방향** | 주문·정산 챗 Agent (2026-09-28 고정) |
@@ -177,6 +177,14 @@ agent-session-wrap
 
 메모:
 …
+```
+
+```text
+agent-session-go
+```
+
+```text
+ago 쭉
 ```
 
 ```text

@@ -451,7 +451,7 @@ study-session-wrap
 (오늘 한 것, 막힌 점)
 ```
 
-**SI 트랙 (주말·별도):** [`STUDY-PLAN-SI.md`](./STUDY-PLAN-SI.md) — 번호 단계 1~20 · **si-session-start** / **si-session-wrap**
+**SI 트랙 (주말·별도):** [`STUDY-PLAN-SI.md`](./STUDY-PLAN-SI.md) — 번호 단계 1~20 · **si-session-start** / **si-session-wrap** · 한 방 **si-session-go** (`sgo`)
 
 **AI Agent 포폴 (주말·별도):** [`STUDY-PLAN-AGENT.md`](./STUDY-PLAN-AGENT.md) — 단계 1~16 (DAY1부터 레포) · **agent-session-start** / **agent-session-wrap** (SI와 같은 날 **한 트랙만**)
 

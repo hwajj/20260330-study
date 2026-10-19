@@ -1,12 +1,13 @@
 ﻿# Agent 14 · README
 
-> 체크: [ctive_agent.md](../../log/_common/sessions/active_agent.md)
+> **go** · 단계 14
 
 ## 학습 할 일
 
-## 진행
+- [x] 설치·env·5분 시나리오
+- [x] 카카오 웹훅 개념도 · 하이브리드 · 이력서 불릿 초안
 
-## 메모
+## 정리
 
-## 막힌 질문
-
+### 한 줄
+면접 전날 `pnpm dev`로 5분 시나리오 재현 가능.

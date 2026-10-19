@@ -6,7 +6,7 @@ description: >-
 
 # si-session-start
 
-SSOT: `STUDY-PLAN-SI.md`. 짝: **si-session-wrap**. 형식은 **tech-survey-start**와 동일.
+SSOT: `STUDY-PLAN-SI.md`. 짝: **si-session-wrap**. 한 방: **si-session-go** (`sgo`). 형식은 **tech-survey-start**와 동일.
 
 **쓰기:** `active_si.md` · `study/si/{NN}-{file-slug}.md` (`study/si/README.md` 표). **FE·Agent active 건드리지 않음.**
 

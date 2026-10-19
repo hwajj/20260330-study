@@ -1,20 +1,28 @@
 # Agent 01 · DAY1 — 스펙·레포 기동
 
-> 학습 노트 SSOT. 체크: [`active_agent.md`](../../log/_common/sessions/active_agent.md)
+> **go** · 플랜 단계 1 · active: [`active_agent.md`](../../log/_common/sessions/active_agent.md)
 
 ## 학습 할 일
 
-(다음 `agent-session-start`가 §2·§3 기준 갱신)
+- [x] `src/labs/agent/ARCHITECTURE.md` — 도구 4개 시그니처 · §0 입력 통과선 · HITL · 트레이스 · eval 목차
+- [x] `server/` — `GET /health`
+- [x] `web/` — Vite+React 채팅 레이아웃 (LLM 미연결)
+- [x] `.env.example` + README `pnpm dev` 한 줄
+- [x] **통과선:** `pnpm dev` — health + 빈 채팅
 
 ## 진행
 
-### 레포·push
+- `src/labs/agent/` 스캐폴드 · health `{"ok":true}` · UI `:5173` 200
+- Node 20 → `pnpm@9.15.0` (corepack)
 
-- 이관: [`log/_common/agent-repo-decision.md`](../../log/_common/agent-repo-decision.md) — GitHub 목표 1/2/3 선택 후 remote·스캐폴드
+## 정리
 
-### 이관 — 2026-09-28 (`active_agent`)
+### 한 줄
+주문·정산 Agent 레포를 `server/`+`web/`로 쪼개 기동하고, 스펙은 `ARCHITECTURE.md`에 목차로 고정했다.
 
-- `src/labs/agent/ARCHITECTURE.md` · `server/` health · `web/` 빈 채팅 · `.env.example`
+### 핵심
+- LLM 연결 전에 health·빈 채팅으로 데모 뼈대를 먼저 둔다.
+- 도구 4·HITL·트레이스·eval 위치를 1단계에서 문서만 박아 둔다.
 
 ## 메모
 
