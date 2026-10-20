@@ -1,5 +1,7 @@
 # study — 학습 트랙 노트
 
+**웹에서 보기:** [`site/`](../site/) VitePress → [GitHub Pages](https://hwajj.github.io/20260330-study/) (`main` push 후 배포)
+
 `STUDY-PLAN-*.md`와 같은 **커리큘럼·누적 학습** 영역.  
 `log/`는 면접·일지·이력 등 **프로젝트 이력** — 학습 노트와 섞지 않음.
 

@@ -1,2 +1,13 @@
 node_modules
 .next
+
+# VitePress (site/)
+site/node_modules
+site/docs/.vitepress/dist
+site/docs/.vitepress/cache
+site/docs/.vitepress/study-sidebar.mts
+site/docs/fe/
+site/docs/si/
+site/docs/agent/
+site/docs/colleague/
+site/docs/tech-survey/

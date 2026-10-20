@@ -1,0 +1,16 @@
+{
+  "name": "20260330-study-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-study-docs.mjs",
+    "predocs:dev": "npm run sync",
+    "predocs:build": "npm run sync",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}
