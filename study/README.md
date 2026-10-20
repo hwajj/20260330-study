@@ -15,5 +15,6 @@
 
 - **번호** = 플랜·커리큘럼 **고정 순번** (공부 안 한 날에 번호가 당겨지지 않음).
 - **파일명** = `{번호}-{slug}.md` (week·요일·회차 없음).
-- start → 노트 **`## 학습 할 일`** 갱신 · **`## 진행`은 유지** (FE/SI/Agent/Colleague는 active 체크 미러).
-- wrap → **`## 진행` 정리** · 완료 시 `study/*/archive/` · IT 훑기는 항목 md만 (active 없음).
+- **FE:** start/go → **`## 학습 할 일`** · go 정리본은 **`## 정리`** (진행·손글·막는 문제 의무 없음). wrap → archive.
+- **SI / Agent / Colleague / IT 훑기:** start → `## 학습 할 일` · **`## 진행` 유지**. wrap → `## 진행` 정리 · `archive/` (IT는 항목 md만).
+- FE/SI/Agent/Colleague는 active에 체크 미러.
