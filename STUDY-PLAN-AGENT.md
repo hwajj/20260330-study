@@ -160,7 +160,7 @@ generate_settlement_excel({ quoteId | rows[] }) → { fileId, downloadUrl }
 | **트랙 시작일** | 2026-10-19 |
 | **16단계 완료** | ☑ |
 | **마지막 Agent 세션** | 2026-10-19 \| step 15~16 go \| 녹화 생략·포폴 마무리, →done |
-| **막힌 질문** | — |
+ 
 | **리포 경로** | `src/labs/agent/` |
 | **포폴 방향** | 주문·정산 챗 Agent (2026-09-28 고정) |
 
