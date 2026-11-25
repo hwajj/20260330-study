@@ -10,92 +10,103 @@
 
 **파일명:** `{NN}-{slug}.md` · go 정리본은 `## 진행`/`## 메모` 없음.
 
-| # | slug | 파일 |
-|---|------|------|
-| 01 | day-01-http-basics | [01-day-01-http-basics.md](./01-day-01-http-basics.md) |
-| 02 | day-02-network-flow | [02-day-02-network-flow.md](./02-day-02-network-flow.md) |
-| 03 | day-03-rendering-1 | [03-day-03-rendering-1.md](./03-day-03-rendering-1.md) |
-| 04 | day-04-rendering-2 | [04-day-04-rendering-2.md](./04-day-04-rendering-2.md) |
-| 05 | day-05-cache-hints | [05-day-05-cache-hints.md](./05-day-05-cache-hints.md) |
-| 06 | day-06-auth-storage | [06-day-06-auth-storage.md](./06-day-06-auth-storage.md) |
-| 07 | day-07-review | [07-day-07-review.md](./07-day-07-review.md) |
-| 08 | day-08-execution-context | [08-day-08-execution-context.md](./08-day-08-execution-context.md) |
-| 09 | day-09-lexical-environment | [09-day-09-lexical-environment.md](./09-day-09-lexical-environment.md) |
-| 10 | day-10-scope-closure | [10-day-10-scope-closure.md](./10-day-10-scope-closure.md) |
-| 11 | day-11-hoisting-tdz | [11-day-11-hoisting-tdz.md](./11-day-11-hoisting-tdz.md) |
-| 12 | day-12-this-bind | [12-day-12-this-bind.md](./12-day-12-this-bind.md) |
-| 13 | day-13-prototype | [13-day-13-prototype.md](./13-day-13-prototype.md) |
-| 14 | day-14-review | [14-day-14-review.md](./14-day-14-review.md) |
-| 15 | day-15-async-event-loop | [15-day-15-async-event-loop.md](./15-day-15-async-event-loop.md) |
-| 16 | day-16-typescript-basic | [16-day-16-typescript-basic.md](./16-day-16-typescript-basic.md) |
-| 17 | day-17-type-inference | [17-day-17-type-inference.md](./17-day-17-type-inference.md) |
-| 18 | day-18-generic | [18-day-18-generic.md](./18-day-18-generic.md) |
-| 19 | day-19-utility-types | [19-day-19-utility-types.md](./19-day-19-utility-types.md) |
-| 20 | day-20-dom | [20-day-20-dom.md](./20-day-20-dom.md) |
-| 21 | day-21-event | [21-day-21-event.md](./21-day-21-event.md) |
-| 22 | day-22-browser-performance | [22-day-22-browser-performance.md](./22-day-22-browser-performance.md) |
-| 23 | day-23-typescript-dom-practice | [23-day-23-typescript-dom-practice.md](./23-day-23-typescript-dom-practice.md) |
-| 24 | day-24-fetch | [24-day-24-fetch.md](./24-day-24-fetch.md) |
-| 25 | day-25-rest-api | [25-day-25-rest-api.md](./25-day-25-rest-api.md) |
-| 26 | day-26-authentication | [26-day-26-authentication.md](./26-day-26-authentication.md) |
-| 27 | day-27-csr | [27-day-27-csr.md](./27-day-27-csr.md) |
-| 28 | day-28-ssr-hydration | [28-day-28-ssr-hydration.md](./28-day-28-ssr-hydration.md) |
-| 29 | day-29-core-web-vitals | [29-day-29-core-web-vitals.md](./29-day-29-core-web-vitals.md) |
-| 30 | day-30-resource-optimization | [30-day-30-resource-optimization.md](./30-day-30-resource-optimization.md) |
-| 31 | day-31-react-rendering | [31-day-31-react-rendering.md](./31-day-31-react-rendering.md) |
-| 32 | day-32-reconciliation | [32-day-32-reconciliation.md](./32-day-32-reconciliation.md) |
-| 33 | day-33-virtual-dom | [33-day-33-virtual-dom.md](./33-day-33-virtual-dom.md) |
-| 34 | day-34-fiber | [34-day-34-fiber.md](./34-day-34-fiber.md) |
-| 35 | day-35-batching | [35-day-35-batching.md](./35-day-35-batching.md) |
-| 36 | day-36-key | [36-day-36-key.md](./36-day-36-key.md) |
-| 37 | day-37-react-query | [37-day-37-react-query.md](./37-day-37-react-query.md) |
-| 38 | day-38-use-state | [38-day-38-use-state.md](./38-day-38-use-state.md) |
-| 39 | day-39-use-effect | [39-day-39-use-effect.md](./39-day-39-use-effect.md) |
-| 40 | day-40-dependency | [40-day-40-dependency.md](./40-day-40-dependency.md) |
-| 41 | day-41-stale-closure | [41-day-41-stale-closure.md](./41-day-41-stale-closure.md) |
-| 42 | day-42-use-ref | [42-day-42-use-ref.md](./42-day-42-use-ref.md) |
-| 43 | day-43-react-memo | [43-day-43-react-memo.md](./43-day-43-react-memo.md) |
-| 44 | day-44-use-memo | [44-day-44-use-memo.md](./44-day-44-use-memo.md) |
-| 45 | day-45-use-callback | [45-day-45-use-callback.md](./45-day-45-use-callback.md) |
-| 46 | day-46-context | [46-day-46-context.md](./46-day-46-context.md) |
-| 47 | day-47-zustand-redux | [47-day-47-zustand-redux.md](./47-day-47-zustand-redux.md) |
-| 48 | day-48-custom-hook | [48-day-48-custom-hook.md](./48-day-48-custom-hook.md) |
-| 49 | day-49-controlled-component | [49-day-49-controlled-component.md](./49-day-49-controlled-component.md) |
-| 50 | day-50-error-boundary | [50-day-50-error-boundary.md](./50-day-50-error-boundary.md) |
-| 51 | day-51-suspense | [51-day-51-suspense.md](./51-day-51-suspense.md) |
-| 08-1 | 08-1-spa-routing-history | [08-08-1-spa-routing-history.md](./08-08-1-spa-routing-history.md) |
-| 08-2 | 08-2-url-as-state | [08-08-2-url-as-state.md](./08-08-2-url-as-state.md) |
-| 08-3 | 08-3-realtime-communication | [08-08-3-realtime-communication.md](./08-08-3-realtime-communication.md) |
-| 08-4 | 08-4-cross-tab-communication | [08-08-4-cross-tab-communication.md](./08-08-4-cross-tab-communication.md) |
-| 09-1 | 09-1-css-layout-architecture | [09-09-1-css-layout-architecture.md](./09-09-1-css-layout-architecture.md) |
-| 09-2 | 09-2-semantic-html-a11y | [09-09-2-semantic-html-a11y.md](./09-09-2-semantic-html-a11y.md) |
-| 09-3 | 09-3-testing | [09-09-3-testing.md](./09-09-3-testing.md) |
-| 09-4 | 09-4-security | [09-09-4-security.md](./09-09-4-security.md) |
-| 10-1 | 10-1-bundler-and-bundle-optimization | [10-10-1-bundler-and-bundle-optimization.md](./10-10-1-bundler-and-bundle-optimization.md) |
-| 10-2 | 10-2-eslint-prettier | [10-10-2-eslint-prettier.md](./10-10-2-eslint-prettier.md) |
-| 10-3 | 10-3-node-version-env | [10-10-3-node-version-env.md](./10-10-3-node-version-env.md) |
-| 10-4 | 10-4-monorepo-git | [10-10-4-monorepo-git.md](./10-10-4-monorepo-git.md) |
-| 10-5 | 10-5-package-manager | [10-10-5-package-manager.md](./10-10-5-package-manager.md) |
-| 11-1 | 11-1-node-runtime-server | [11-11-1-node-runtime-server.md](./11-11-1-node-runtime-server.md) |
-| 11-2 | 11-2-rest-api-design-advanced | [11-11-2-rest-api-design-advanced.md](./11-11-2-rest-api-design-advanced.md) |
-| 11-3 | 11-3-auth-server | [11-11-3-auth-server.md](./11-11-3-auth-server.md) |
-| 11-4 | 11-4-bff-gateway | [11-11-4-bff-gateway.md](./11-11-4-bff-gateway.md) |
-| 12-1 | 12-1-connection-pool | [12-12-1-connection-pool.md](./12-12-1-connection-pool.md) |
-| 12-2 | 12-2-index-query | [12-12-2-index-query.md](./12-12-2-index-query.md) |
-| 12-3 | 12-3-transaction-n1 | [12-12-3-transaction-n1.md](./12-12-3-transaction-n1.md) |
-| 13-1 | 13-1-network-deep | [13-13-1-network-deep.md](./13-13-1-network-deep.md) |
-| 13-2 | 13-2-nginx-reverse-proxy-subdomain | [13-13-2-nginx-reverse-proxy-subdomain.md](./13-13-2-nginx-reverse-proxy-subdomain.md) |
-| 13-3 | 13-3-static-deploy-s3-media | [13-13-3-static-deploy-s3-media.md](./13-13-3-static-deploy-s3-media.md) |
-| 13-4 | 13-4-docker-cicd | [13-13-4-docker-cicd.md](./13-13-4-docker-cicd.md) |
-| 13-5 | 13-5-troubleshooting-cases | [13-13-5-troubleshooting-cases.md](./13-13-5-troubleshooting-cases.md) |
-| 14-1 | 14-1-ga4-clarity-looker | [14-14-1-ga4-clarity-looker.md](./14-14-1-ga4-clarity-looker.md) |
-| 14-2 | 14-2-monitoring-rum-sentry | [14-14-2-monitoring-rum-sentry.md](./14-14-2-monitoring-rum-sentry.md) |
-| 75 | day-75-project-retrospective-1 | [75-day-75-project-retrospective-1.md](./75-day-75-project-retrospective-1.md) |
-| 76 | day-76-project-retrospective-2 | [76-day-76-project-retrospective-2.md](./76-day-76-project-retrospective-2.md) |
-| 77 | day-77-incident-experience | [77-day-77-incident-experience.md](./77-day-77-incident-experience.md) |
-| 78 | day-78-performance-improvement | [78-day-78-performance-improvement.md](./78-day-78-performance-improvement.md) |
-| 79 | day-79-collaboration | [79-day-79-collaboration.md](./79-day-79-collaboration.md) |
-| 80 | day-80-star-answers | [80-day-80-star-answers.md](./80-day-80-star-answers.md) |
+### 필기용 번호 (`필기`)
+
+[`CURRICULUM-FULL-TRACK.md`](../../CURRICULUM-FULL-TRACK.md)의 **Curr Week 1~15**와 같이 **`주차-순번`** 형식입니다. 공책·노트에 적을 때 쓰면 됩니다.
+
+- **`#` 열은 그대로** — 파일·Day 식별자(`01`, `08-1`, `75` …).
+- **1~7주** — 그 주 안에서 몇 번째 Day인지 (`1-1` … `7-6`). Day 15는 커리큘럼상 **2주**에 포함 → `2-8`.
+- **8~14주** — `#`과 동일한 표기 (`8-1` … `14-2`, 앞자리 0 없음).
+- **15주(경력)** — `15-1` … `15-6` (`#` 75~80).
+
+**예:** `#` **01** → 필기 **1-1** · `#` **31** → **5-1** · `#` **51** → **7-6** · `#` **08-1** → **8-1** · `#` **10-1** → **10-1** · `#` **75** → **15-1**
+
+| # | 필기 | slug | 파일 |
+|---|:---:|------|------|
+| 01 | 1-1 | day-01-http-basics | [01-day-01-http-basics.md](./01-day-01-http-basics.md) |
+| 02 | 1-2 | day-02-network-flow | [02-day-02-network-flow.md](./02-day-02-network-flow.md) |
+| 03 | 1-3 | day-03-rendering-1 | [03-day-03-rendering-1.md](./03-day-03-rendering-1.md) |
+| 04 | 1-4 | day-04-rendering-2 | [04-day-04-rendering-2.md](./04-day-04-rendering-2.md) |
+| 05 | 1-5 | day-05-cache-hints | [05-day-05-cache-hints.md](./05-day-05-cache-hints.md) |
+| 06 | 1-6 | day-06-auth-storage | [06-day-06-auth-storage.md](./06-day-06-auth-storage.md) |
+| 07 | 1-7 | day-07-review | [07-day-07-review.md](./07-day-07-review.md) |
+| 08 | 2-1 | day-08-execution-context | [08-day-08-execution-context.md](./08-day-08-execution-context.md) |
+| 09 | 2-2 | day-09-lexical-environment | [09-day-09-lexical-environment.md](./09-day-09-lexical-environment.md) |
+| 10 | 2-3 | day-10-scope-closure | [10-day-10-scope-closure.md](./10-day-10-scope-closure.md) |
+| 11 | 2-4 | day-11-hoisting-tdz | [11-day-11-hoisting-tdz.md](./11-day-11-hoisting-tdz.md) |
+| 12 | 2-5 | day-12-this-bind | [12-day-12-this-bind.md](./12-day-12-this-bind.md) |
+| 13 | 2-6 | day-13-prototype | [13-day-13-prototype.md](./13-day-13-prototype.md) |
+| 14 | 2-7 | day-14-review | [14-day-14-review.md](./14-day-14-review.md) |
+| 15 | 2-8 | day-15-async-event-loop | [15-day-15-async-event-loop.md](./15-day-15-async-event-loop.md) |
+| 16 | 3-1 | day-16-typescript-basic | [16-day-16-typescript-basic.md](./16-day-16-typescript-basic.md) |
+| 17 | 3-2 | day-17-type-inference | [17-day-17-type-inference.md](./17-day-17-type-inference.md) |
+| 18 | 3-3 | day-18-generic | [18-day-18-generic.md](./18-day-18-generic.md) |
+| 19 | 3-4 | day-19-utility-types | [19-day-19-utility-types.md](./19-day-19-utility-types.md) |
+| 20 | 3-5 | day-20-dom | [20-day-20-dom.md](./20-day-20-dom.md) |
+| 21 | 3-6 | day-21-event | [21-day-21-event.md](./21-day-21-event.md) |
+| 22 | 3-7 | day-22-browser-performance | [22-day-22-browser-performance.md](./22-day-22-browser-performance.md) |
+| 23 | 3-8 | day-23-typescript-dom-practice | [23-day-23-typescript-dom-practice.md](./23-day-23-typescript-dom-practice.md) |
+| 24 | 4-1 | day-24-fetch | [24-day-24-fetch.md](./24-day-24-fetch.md) |
+| 25 | 4-2 | day-25-rest-api | [25-day-25-rest-api.md](./25-day-25-rest-api.md) |
+| 26 | 4-3 | day-26-authentication | [26-day-26-authentication.md](./26-day-26-authentication.md) |
+| 27 | 4-4 | day-27-csr | [27-day-27-csr.md](./27-day-27-csr.md) |
+| 28 | 4-5 | day-28-ssr-hydration | [28-day-28-ssr-hydration.md](./28-day-28-ssr-hydration.md) |
+| 29 | 4-6 | day-29-core-web-vitals | [29-day-29-core-web-vitals.md](./29-day-29-core-web-vitals.md) |
+| 30 | 4-7 | day-30-resource-optimization | [30-day-30-resource-optimization.md](./30-day-30-resource-optimization.md) |
+| 31 | 5-1 | day-31-react-rendering | [31-day-31-react-rendering.md](./31-day-31-react-rendering.md) |
+| 32 | 5-2 | day-32-reconciliation | [32-day-32-reconciliation.md](./32-day-32-reconciliation.md) |
+| 33 | 5-3 | day-33-virtual-dom | [33-day-33-virtual-dom.md](./33-day-33-virtual-dom.md) |
+| 34 | 5-4 | day-34-fiber | [34-day-34-fiber.md](./34-day-34-fiber.md) |
+| 35 | 5-5 | day-35-batching | [35-day-35-batching.md](./35-day-35-batching.md) |
+| 36 | 5-6 | day-36-key | [36-day-36-key.md](./36-day-36-key.md) |
+| 37 | 5-7 | day-37-react-query | [37-day-37-react-query.md](./37-day-37-react-query.md) |
+| 38 | 6-1 | day-38-use-state | [38-day-38-use-state.md](./38-day-38-use-state.md) |
+| 39 | 6-2 | day-39-use-effect | [39-day-39-use-effect.md](./39-day-39-use-effect.md) |
+| 40 | 6-3 | day-40-dependency | [40-day-40-dependency.md](./40-day-40-dependency.md) |
+| 41 | 6-4 | day-41-stale-closure | [41-day-41-stale-closure.md](./41-day-41-stale-closure.md) |
+| 42 | 6-5 | day-42-use-ref | [42-day-42-use-ref.md](./42-day-42-use-ref.md) |
+| 43 | 6-6 | day-43-react-memo | [43-day-43-react-memo.md](./43-day-43-react-memo.md) |
+| 44 | 6-7 | day-44-use-memo | [44-day-44-use-memo.md](./44-day-44-use-memo.md) |
+| 45 | 6-8 | day-45-use-callback | [45-day-45-use-callback.md](./45-day-45-use-callback.md) |
+| 46 | 7-1 | day-46-context | [46-day-46-context.md](./46-day-46-context.md) |
+| 47 | 7-2 | day-47-zustand-redux | [47-day-47-zustand-redux.md](./47-day-47-zustand-redux.md) |
+| 48 | 7-3 | day-48-custom-hook | [48-day-48-custom-hook.md](./48-day-48-custom-hook.md) |
+| 49 | 7-4 | day-49-controlled-component | [49-day-49-controlled-component.md](./49-day-49-controlled-component.md) |
+| 50 | 7-5 | day-50-error-boundary | [50-day-50-error-boundary.md](./50-day-50-error-boundary.md) |
+| 51 | 7-6 | day-51-suspense | [51-day-51-suspense.md](./51-day-51-suspense.md) |
+| 08-1 | 8-1 | 08-1-spa-routing-history | [08-08-1-spa-routing-history.md](./08-08-1-spa-routing-history.md) |
+| 08-2 | 8-2 | 08-2-url-as-state | [08-08-2-url-as-state.md](./08-08-2-url-as-state.md) |
+| 08-3 | 8-3 | 08-3-realtime-communication | [08-08-3-realtime-communication.md](./08-08-3-realtime-communication.md) |
+| 08-4 | 8-4 | 08-4-cross-tab-communication | [08-08-4-cross-tab-communication.md](./08-08-4-cross-tab-communication.md) |
+| 09-1 | 9-1 | 09-1-css-layout-architecture | [09-09-1-css-layout-architecture.md](./09-09-1-css-layout-architecture.md) |
+| 09-2 | 9-2 | 09-2-semantic-html-a11y | [09-09-2-semantic-html-a11y.md](./09-09-2-semantic-html-a11y.md) |
+| 09-3 | 9-3 | 09-3-testing | [09-09-3-testing.md](./09-09-3-testing.md) |
+| 09-4 | 9-4 | 09-4-security | [09-09-4-security.md](./09-09-4-security.md) |
+| 10-1 | 10-1 | 10-1-bundler-and-bundle-optimization | [10-10-1-bundler-and-bundle-optimization.md](./10-10-1-bundler-and-bundle-optimization.md) |
+| 10-2 | 10-2 | 10-2-eslint-prettier | [10-10-2-eslint-prettier.md](./10-10-2-eslint-prettier.md) |
+| 10-3 | 10-3 | 10-3-node-version-env | [10-10-3-node-version-env.md](./10-10-3-node-version-env.md) |
+| 10-4 | 10-4 | 10-4-monorepo-git | [10-10-4-monorepo-git.md](./10-10-4-monorepo-git.md) |
+| 10-5 | 10-5 | 10-5-package-manager | [10-10-5-package-manager.md](./10-10-5-package-manager.md) |
+| 11-1 | 11-1 | 11-1-node-runtime-server | [11-11-1-node-runtime-server.md](./11-11-1-node-runtime-server.md) |
+| 11-2 | 11-2 | 11-2-rest-api-design-advanced | [11-11-2-rest-api-design-advanced.md](./11-11-2-rest-api-design-advanced.md) |
+| 11-3 | 11-3 | 11-3-auth-server | [11-11-3-auth-server.md](./11-11-3-auth-server.md) |
+| 11-4 | 11-4 | 11-4-bff-gateway | [11-11-4-bff-gateway.md](./11-11-4-bff-gateway.md) |
+| 12-1 | 12-1 | 12-1-connection-pool | [12-12-1-connection-pool.md](./12-12-1-connection-pool.md) |
+| 12-2 | 12-2 | 12-2-index-query | [12-12-2-index-query.md](./12-12-2-index-query.md) |
+| 12-3 | 12-3 | 12-3-transaction-n1 | [12-12-3-transaction-n1.md](./12-12-3-transaction-n1.md) |
+| 13-1 | 13-1 | 13-1-network-deep | [13-13-1-network-deep.md](./13-13-1-network-deep.md) |
+| 13-2 | 13-2 | 13-2-nginx-reverse-proxy-subdomain | [13-13-2-nginx-reverse-proxy-subdomain.md](./13-13-2-nginx-reverse-proxy-subdomain.md) |
+| 13-3 | 13-3 | 13-3-static-deploy-s3-media | [13-13-3-static-deploy-s3-media.md](./13-13-3-static-deploy-s3-media.md) |
+| 13-4 | 13-4 | 13-4-docker-cicd | [13-13-4-docker-cicd.md](./13-13-4-docker-cicd.md) |
+| 13-5 | 13-5 | 13-5-troubleshooting-cases | [13-13-5-troubleshooting-cases.md](./13-13-5-troubleshooting-cases.md) |
+| 14-1 | 14-1 | 14-1-ga4-clarity-looker | [14-14-1-ga4-clarity-looker.md](./14-14-1-ga4-clarity-looker.md) |
+| 14-2 | 14-2 | 14-2-monitoring-rum-sentry | [14-14-2-monitoring-rum-sentry.md](./14-14-2-monitoring-rum-sentry.md) |
+| 75 | 15-1 | day-75-project-retrospective-1 | [75-day-75-project-retrospective-1.md](./75-day-75-project-retrospective-1.md) |
+| 76 | 15-2 | day-76-project-retrospective-2 | [76-day-76-project-retrospective-2.md](./76-day-76-project-retrospective-2.md) |
+| 77 | 15-3 | day-77-incident-experience | [77-day-77-incident-experience.md](./77-day-77-incident-experience.md) |
+| 78 | 15-4 | day-78-performance-improvement | [78-day-78-performance-improvement.md](./78-day-78-performance-improvement.md) |
+| 79 | 15-5 | day-79-collaboration | [79-day-79-collaboration.md](./79-day-79-collaboration.md) |
+| 80 | 15-6 | day-80-star-answers | [80-day-80-star-answers.md](./80-day-80-star-answers.md) |
 
 **상태 (2026-10-19):** STUDY-PLAN **8주 §4-B 전부 ☑** · FULL 트랙 **Curr 1~15 전부 ☑** (`CURRENT_CURR_DAY` = `done`). 남은 일: FULL 통과선(면접 10주제·주간 정리 말하기).
 
